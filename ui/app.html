@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beekeepers</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            color: #333;
+        }
+        h1 {
+            color: #006400;
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .box {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            width: 45%;
+            min-width: 300px;
+        }
+        .box h2 {
+            margin-top: 0;
+            font-size: 18px;
+            color: #333;
+        }
+        .box ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        .box ul li {
+            background-color: #f9f9f9;
+            border-bottom: 1px solid #ddd;
+            padding: 10px;
+        }
+        .box ul li:last-child {
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Honey Net</h1>
+    <p>Welcome to the Beekeepers' website. Stay tuned for more information!</p>
+
+    <div class="container">
+        <div class="box">
+            <h2>Incoming Traffic</h2>
+            <p>Details about incoming traffic will be displayed here.</p>
+        </div>
+        <div class="box">
+            <h2>Logs</h2>
+            <ul>
+                <li>Log entry 1</li>
+                <li>Log entry 2</li>
+                <li>Log entry 3</li>
+                <li>Log entry 4</li>
+                <!-- Add more log entries as needed -->
+            </ul>
+        </div>
+        <div class="box">
+            <h2>Grafana</h2>
+            <p>Grafana visualizations and metrics will be displayed here.</p>
+        </div>
+        <div class="box">
+            <h2>Alerts</h2>
+            <p>Details about recent alerts will be displayed here.</p>
+        </div>
+    </div>
+</body>
+</html>
