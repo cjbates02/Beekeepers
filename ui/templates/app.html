@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="../static/style.css">
     <title>Beekeepers</title>
 </head>
 <body>
@@ -12,38 +12,13 @@
 
     <nav>
         <ul>
-            <li><a href="incoming-traffic.html" target="_blank">Incoming Traffic</a></li>
-            <li><a href="logs.html" target="_blank">Logs</a></li>
-            <li><a href="grafana.html" target="_blank">Grafana</a></li>
-            <li><a href="alerts.html" target="_blank">Alerts</a></li>
+            <li><a href="{{url_for('incoming_traffic')}}" target="_blank">Incoming Traffic</a></li>
+            <li><a href="{{url_for('logs')}}" target="_blank">Logs</a></li>
+            <li><a href="{{url_for('grafana')}}" target="_blank">Grafana</a></li>
+            <li><a href="{{url_for('alerts')}}" target="_blank">Alerts</a></li>
         </ul>
     </nav>
     
-
-    <div class="container">
-        <div class="box">
-            <h2>Incoming Traffic</h2>
-            <p>incoming traffic will be displayed here.</p>
-        </div>
-        <div class="box">
-            <h2>Logs</h2>
-            <ul>
-                <li>Log entry 1</li>
-                <li>Log entry 2</li>
-                <li>Log entry 3</li>
-                <li>Log entry 4</li>
-                <!-- Add more log entries as needed -->
-            </ul>
-        </div>
-        <div class="box">
-            <h2>Grafana</h2>
-            <p>more info displayed here.</p>
-        </div>
-        <div class="box">
-            <h2>Alerts</h2>
-            <p>recent alerts will be displayed here.</p>
-        </div>
-    </div>
 </body>
 
 </html>
