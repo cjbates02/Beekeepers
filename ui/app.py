@@ -7,8 +7,8 @@ def home():
     return render_template('app.html')
 
 @app.route('/alerts')
-def alers():
-    return render_template('app.html')
+def alerts():
+    return render_template('alerts.html')
 
 @app.route('/grafana')
 def grafana():
