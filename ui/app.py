@@ -12,15 +12,15 @@ def alerts():
 
 @app.route('/grafana')
 def grafana():
-    return render_template('app.html')
+    return render_template('grafana.html')
 
 @app.route('/logs')
 def logs():
-    return render_template('app.html')
+    return render_template('logs.html')
 
 @app.route('/incoming_traffic')
 def incoming_traffic():
-    return render_template('app.html')
+    return render_template('incoming_traffic.html')
 
 @app.route('/login')
 def login_page():
