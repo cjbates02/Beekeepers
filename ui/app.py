@@ -18,9 +18,9 @@ def grafana():
 def logs():
     return render_template('logs.html')
 
-@app.route('/incoming_traffic')
+@app.route('/incoming-traffic')
 def incoming_traffic():
-    return render_template('incoming_traffic.html')
+    return render_template('incoming-traffic.html')
 
 @app.route('/login')
 def login_page():
