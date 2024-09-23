@@ -5,18 +5,96 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="../static/style.css">
     <title>Beekeepers</title>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Log data from the JSON provided
+            const logs = [
+                {
+                    "timestamp": "2024-09-18T12:34:56Z",
+                    "source_ip": "192.168.1.10",
+                    "destination_ip": "192.168.1.20",
+                    "event_type": "connection_attempt",
+                    "protocol": "TCP",
+                    "port": 80,
+                    "status": "blocked",
+                    "description": "Blocked HTTP connection attempt from source IP."
+                },
+                {
+                    "timestamp": "2024-09-18T12:35:10Z",
+                    "source_ip": "203.0.113.5",
+                    "destination_ip": "192.168.1.20",
+                    "event_type": "intrusion_attempt",
+                    "protocol": "TCP",
+                    "port": 22,
+                    "status": "alert",
+                    "description": "SSH brute-force attempt detected from source IP."
+                },
+                {
+                    "timestamp": "2024-09-18T12:36:45Z",
+                    "source_ip": "198.51.100.3",
+                    "destination_ip": "192.168.1.20",
+                    "event_type": "malware_download",
+                    "protocol": "HTTP",
+                    "port": 443,
+                    "status": "logged",
+                    "description": "Potential malware download detected over HTTPS."
+                },
+                {
+                    "timestamp": "2024-09-18T12:37:22Z",
+                    "source_ip": "192.0.2.15",
+                    "destination_ip": "192.168.1.20",
+                    "event_type": "port_scan",
+                    "protocol": "TCP",
+                    "ports_scanned": [22, 80, 443],
+                    "status": "noted",
+                    "description": "Port scan detected from source IP."
+                },
+                {
+                    "timestamp": "2024-09-18T12:38:00Z",
+                    "source_ip": "203.0.113.10",
+                    "destination_ip": "192.168.1.20",
+                    "event_type": "data_exfiltration",
+                    "protocol": "FTP",
+                    "port": 21,
+                    "status": "alert",
+                    "description": "Suspicious FTP data transfer attempt detected."
+                }
+            ];
+
+            // Function to dynamically load logs into the HTML
+            function loadLogs() {
+                const logContainer = document.getElementById("log-list");
+                logs.forEach(log => {
+                    const logEntry = document.createElement("li");
+                    logEntry.innerHTML = `
+                        <strong>Timestamp:</strong> ${log.timestamp}<br>
+                        <strong>Source IP:</strong> ${log.source_ip}<br>
+                        <strong>Destination IP:</strong> ${log.destination_ip}<br>
+                        <strong>Event Type:</strong> ${log.event_type}<br>
+                        <strong>Protocol:</strong> ${log.protocol}<br>
+                        <strong>Port:</strong> ${log.port}<br>
+                        <strong>Status:</strong> ${log.status}<br>
+                        <strong>Description:</strong> ${log.description}<br><br>
+                    `;
+                    logContainer.appendChild(logEntry);
+                });
+            }
+
+            // Load logs
+            loadLogs();
+        });
+    </script>
 </head>
 <body>
-<div class="box">
-    <h2>Logs</h2>
-    <ul>
-        <li>Log entry 1</li>
-        <li>Log entry 2</li>
-        <li>Log entry 3</li>
-        <li>Log entry 4</li>
-        <!-- Add more log entries as needed -->
-    </ul>
-</div>
+    <div class="container">
+        <div class="box">
+            <h2>Logs</h2>
+            <ul id="log-list">
+                <!-- Log entries will be inserted here dynamically -->
+            </ul>
+        </div>
+    </div>
 </body>
 
 </html>
