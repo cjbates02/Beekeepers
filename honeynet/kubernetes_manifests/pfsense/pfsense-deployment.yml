@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pfsense
+  namespace: honeypot
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pfsense
+  template:
+    metadata:
+      labels:
+        app: pfsense
+    spec:
+      nodeSelector:
+        role: worker
+      containers:
+      - name: cowrie
+        image: cjbates02/pfsense-honeypot
+        ports:
+        - containerPort: 8000
+          protocol: TCP
