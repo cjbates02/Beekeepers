@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>pfSense Login</title>
+    <style>
+        .navbar {
+            background-color: white;
+            height: 100%;
+            display: flex;
+            justify-content: space-between; /* Space between items */
+            align-items: center; /* Vertically center the items */
+        }
+
+        .login-container {
+            height: 100%;
+        }
+
+        body {
+            margin: 0;
+            background-color: purple;
+        }
+
+        .logo {
+            height: 100%;
+            width: 200x;
+            margin-left: 9.5%;
+        }
+        .header-text {
+            margin-left: auto; /* Push text to the right */
+            margin-right: 5%;
+        }
+        .form-container {
+            display: flex;
+            justify-content: center;
+            margin: auto;
+            text-align: center;
+            margin-top: 10%;
+        }
+        input {
+            padding: 20px;
+            width: 250px;
+            background-color: purple;
+            border: none;
+            border-bottom: solid 1px white;
+            font-weight: bolder;
+            font-style: italic;
+        }
+
+        button {
+            padding: 9px;
+            width: 160px;
+            background-color: #65c365;
+            color: white;
+            font-weight: 150;
+            border: none;
+            border-radius: 5px;
+        }
+        h2 {
+            color: white;
+            font-family: 'Helvetica';
+            font-weight: 100;
+            letter-spacing: 3px;
+        }
+        span {
+            font-family: 'Helvetica';
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class=navbar>
+            <img class="logo" src="logo.jpg">
+            <span class=header-text>Login to pfSense</span>
+        </div>
+        <div class="form-container">
+            <form action="/login" method="post">
+                <h2>SIGN IN</h2>
+                <div><input type="text" name="username" placeholder="Username" required></div>
+                <div><input type="password" name="password" placeholder="Password" required></div>
+                <br />
+                <br />
+                <div><button>SIGN IN</button></div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
