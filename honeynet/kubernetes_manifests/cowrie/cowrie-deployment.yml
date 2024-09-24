@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cowrie
+  namespace: honeypot
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cowrie
+  template:
+    metadata:
+      labels:
+        app: cowrie
+    spec:
+      nodeSelector:
+        role: worker
+      containers:
+      - name: cowrie
+        image: cowrie/cowrie:latest
+        ports:
+        - containerPort: 2222
+          protocol: TCP
+        - containerPort: 80
+          protocol: TCP 
