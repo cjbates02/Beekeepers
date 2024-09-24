@@ -4,3 +4,4 @@ Include/
 pyvenv.cfg
 git-commands.txt
 ./honeynet/kubernetes_manifests/.cowrie-deployment.yaml.swp
+test_data.json
