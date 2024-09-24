@@ -61,7 +61,7 @@ def run(server_class=HTTPServer, handler_class=pfSenseHandler):
 
 if __name__ == '__main__':
     try:
-        print('pfSense Honeytpot Started')
+        print('pfSense Honeypot Started')
         run()
     except KeyboardInterrupt:
         print('Bye bye...')
