@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, jsonify
 import json
 import os
 
@@ -12,15 +12,14 @@ def home():
 def logs():
     # Get the absolute path to the JSON file
     file_path = os.path.join(os.path.dirname(__file__), 'test_data.json')
+    print(file_path)
 
-    try:
-         with open(file_path, 'r') as file:
-            logs_data = json.load(file)
-    except FileNotFoundError:
-        logs_data = []  # In case the file is not found, return an empty list
+    with open(file_path, 'r') as file:
+        logs_data = json.load(file)
+    print(logs_data)
 
     # Pass the logs to the logs.html template
-    return render_template('logs.html', logs=logs_data)
+    return render_template('logs.html', logs=logs_data['logs'])
 
 @app.route('/alerts')
 def alerts():
