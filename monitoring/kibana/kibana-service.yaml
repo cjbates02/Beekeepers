@@ -9,6 +9,6 @@ spec:
   - port: 5601
     targetPort: 5601
     protocol: TCP
-    nodePort: 30001 # Change to your preferred port
+    nodePort: 30001
   selector:
     app: kibana

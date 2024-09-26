@@ -25,8 +25,12 @@ spec:
         env:
         - name: discovery.type
           value: single-node
-        - name: ES_JAVA_OPTS
-          value: "-Xms512m -Xmx512m"
+        - name: xpack.security.http.ssl.enabled
+          value: "false"
+        - name: xpack.security.enabled
+          value: "false"
+        # - name: ES_JAVA_OPTS
+        #   value: "-Xms512m -Xmx512m"
         ports:
         - containerPort: 9200
           name: http

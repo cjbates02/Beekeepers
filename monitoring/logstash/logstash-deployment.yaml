@@ -32,6 +32,6 @@ spec:
             memory: "2Gi"
             cpu: "1"
       volumes:
-      - name: logstash-storage
-        persistentVolumeClaim:
-          claimName: logstash-pvc
+      - name: logstash-pipeline
+        configMap:
+          name: logstash-pipeline-config
