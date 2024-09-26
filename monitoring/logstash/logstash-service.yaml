@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: logstash
+  namespace: monitoring
+spec:
+  type: NodePort
+  ports:
+  - port: 5044
+    targetPort: 5044
+    protocol: TCP
+    nodePort: 30003 # Change to your preferred port
+  selector:
+    app: logstash
