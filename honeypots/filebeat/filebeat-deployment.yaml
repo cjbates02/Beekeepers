@@ -18,6 +18,10 @@ spec:
       containers:
       - name: filebeat
         image: docker.elastic.co/beats/filebeat:8.5.1  # Use the desired version
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
         args: [
           "-e", 
           "-c", "/etc/filebeat.yml"

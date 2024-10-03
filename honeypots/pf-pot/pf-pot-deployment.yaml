@@ -18,6 +18,10 @@ spec:
       containers:
       - name: pfsense-honeypot
         image: cjbates02/pfsense-honeypot
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
         volumeMounts:
         - name: honeypot-log-pvc
           mountPath: /workspace/logs

@@ -8,13 +8,12 @@ data:
     input {
       beats {
         port => 5044
-        protocol_version: 79
       }
     }
 
     output {
       elasticsearch {
-        hosts => ["http://elasticsearch:9200"]
-        index => "pfpot-logs-%{+YYYY.MM.dd}"      
+          hosts => ["http://elasticsearch:9200"]
+          index => "pfpot-logs-%{+YYYY.MM.dd}"      
         }
     }

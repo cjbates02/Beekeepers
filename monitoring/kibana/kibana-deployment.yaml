@@ -23,7 +23,7 @@ spec:
         role: master
       containers:
       - name: kibana
-        image: docker.elastic.co/kibana/kibana:7.17.5 # Use the appropriate version
+        image: docker.elastic.co/kibana/kibana:8.5.0 # Use the appropriate version
         ports:
         - containerPort: 5601
         env:
