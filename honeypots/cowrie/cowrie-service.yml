@@ -11,17 +11,3 @@ spec:
     protocol: TCP
   selector:
     app: cowrie
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: cowrie-ssh-server
-  namespace: honeypot
-spec:
-  type: NodePort
-  ports:
-  - port: 22
-    targetPort: 22
-    protocol: TCP
-  selector:
-    app: cowrie

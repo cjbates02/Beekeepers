@@ -18,30 +18,13 @@ spec:
       containers:
       - name: cowrie
         image: cowrie/cowrie:latest
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
         ports:
         - containerPort: 2222
           protocol: TCP
         - containerPort: 80
           protocol: TCP
-        - containerPort: 64126
-        volumeMounts:
-        - name: cowrie-logs
-          mountPath: /home/cowrie/cowrie/var/log  # Adjust if needed
-          #Filebeat sidecar
-      # - name: filebeat
-      #   image: docker.elastic.co/beats/filebeat:7.15.0 
-      #   args: [
-      #     "-e",
-      #     "-c", "/etc/filebeat/filebeat.yml"
-      #   ]
-      #   volumeMounts:
-      #   - name: cowrie-logs
-      #     mountPath: /home/cowrie/cowrie/var/log  # Same log path to read Cowrie logs
-      #   - name: filebeat-config
-      #     mountPath: /etc/filebeat  # Mount Filebeat config
-      # volumes:
-      # - name: cowrie-logs
-      #   emptyDir: {}  # Shared volume for logs
-      # - name: filebeat-config
-      #   configMap:
-      #     name: filebeat-config  # Reference to the ConfigMap with Filebeat config
+

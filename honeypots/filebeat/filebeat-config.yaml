@@ -10,6 +10,7 @@ data:
       enabled: true
       paths:
         - /var/log/*.txt
+        - /var/log/*.log
 
     output.logstash:
       hosts: ["logstash.monitoring.svc.cluster.local:5044"] 
