@@ -7,18 +7,28 @@
     <title>Beekeepers</title>
 </head>
 <body>
-    <h1>Honey Net</h1>
-    <p>Welcome to the Beekeepers' website. more information</p>
+    <header id="cs-nav">
+        <h1 class="cs-header">Honey Net</h1>
+        <p class="cs-subheader">Welcome to the Beekeepers' website. More information below:</p>
+        <nav>
+            <ul>
+                <li><a href="{{url_for('incoming_traffic')}}" target="_blank">Incoming Traffic</a></li>
+                <li><a href="{{url_for('logs')}}" target="_blank">Logs</a></li>
+                <li><a href="{{url_for('grafana')}}" target="_blank">Grafana</a></li>
+                <li><a href="{{url_for('alerts')}}" target="_blank">Alerts</a></li>
+            </ul>
+        </nav>
+    </header>
+</body>
+</html>
 
-    <nav>
-        <ul>
-            <li><a href="{{url_for('incoming_traffic')}}" target="_blank">Incoming Traffic</a></li>
-            <li><a href="{{url_for('logs')}}" target="_blank">Logs</a></li>
-            <li><a href="{{url_for('grafana')}}" target="_blank">Grafana</a></li>
-            <li><a href="{{url_for('alerts')}}" target="_blank">Alerts</a></li>
-        </ul>
-    </nav>
-    
+<body>
+    <div>
+        <!-- <h1>Honey Net</h1>
+        <p>Welcome to the Beekeepers' website. more information</p> -->
+    </div>
+
+    <img id="background" src="\static\Honey comb.jpg"></img>
 </body>
 
 </html>

@@ -1,6 +1,6 @@
 body {
     font-family: Arial, sans-serif;
-    margin: 20px;
+    margin: 0px;
     color: #333;
 }
 h1 {
@@ -68,3 +68,28 @@ nav ul li a:hover {
     text-decoration: underline;
 }
 
+background {
+    position: fixed;
+}
+
+cs-nav {
+    width: 100%;
+    box-sizing: border-box;
+    position: fixed;
+    z-index: 100;
+}
+
+header {
+    text-align: left;
+}
+
+cs-header {
+    font-size: (14/16rem);
+    display: block;
+
+}
+
+cs-subheader {
+    display: block;
+
+}
