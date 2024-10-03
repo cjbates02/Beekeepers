@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: filebeat
+  namespace: honeypot
+  labels:
+    app: filebeat
+spec:
+  replicas: 1 
+  selector:
+    matchLabels:
+      app: filebeat
+  template:
+    metadata:
+      labels:
+        app: filebeat
+    spec:
+      containers:
+      - name: filebeat
+        image: docker.elastic.co/beats/filebeat:8.5.1  # Use the desired version
+        args: [
+          "-e", 
+          "-c", "/etc/filebeat.yml"
+        ]
+        volumeMounts:
+        - name: config
+          mountPath: /etc/filebeat.yml
+          subPath: filebeat.yml
+        - name: log-storage
+          mountPath: /var/log
+      volumes:
+      - name: config
+        configMap:
+          name: filebeat-config  
+      - name: log-storage
+        persistentVolumeClaim:
+          claimName: honeypot-log-pvc
+

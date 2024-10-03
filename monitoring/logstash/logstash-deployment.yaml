@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: logstash
+  namespace: monitoring
   labels:
     app: logstash
 spec:
@@ -10,17 +11,26 @@ spec:
     matchLabels:
       app: logstash
   template:
-    nodeSelector:
-        role: master
     metadata:
       labels:
         app: logstash
     spec:
+      tolerations:
+      - key: "node-role.kubernetes.io/control-plane"
+        operator: "Exists"
+        effect: "NoSchedule"
+      nodeSelector:
+        role: master
       containers:
       - name: logstash
         image: docker.elastic.co/logstash/logstash:8.5.0 # Use the appropriate version
+        volumeMounts:
+        - name: logstash-pipeline
+          mountPath: /usr/share/logstash/pipeline/logstash.conf
+          subPath: logstash.conf
         ports:
         - containerPort: 5044 # Default port for beats input
+        - containerPort: 9600
         env:
         - name: ELASTICSEARCH_HOST
           value: "elasticsearch:9200" # Adjust this if necessary
@@ -34,4 +44,4 @@ spec:
       volumes:
       - name: logstash-pipeline
         configMap:
-          name: logstash-pipeline-config
+          name: logstash-config

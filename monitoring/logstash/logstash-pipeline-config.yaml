@@ -1,16 +1,20 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: logstash-pipeline-config
+  name: logstash-config
+  namespace: monitoring
 data:
-  pipeline.conf: |
+  logstash.conf: |
     input {
       beats {
         port => 5044
+        protocol_version: 79
       }
     }
+
     output {
       elasticsearch {
-        hosts => ["${ELASTICSEARCH_HOST}"]
-      }
+        hosts => ["http://elasticsearch:9200"]
+        index => "pfpot-logs-%{+YYYY.MM.dd}"      
+        }
     }

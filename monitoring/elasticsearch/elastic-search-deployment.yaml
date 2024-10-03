@@ -36,3 +36,4 @@ spec:
           name: http
         - containerPort: 9300
           name: transport
+        

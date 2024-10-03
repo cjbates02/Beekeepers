@@ -1,23 +1,31 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: pfsense
+  name: pf-pot
   namespace: honeypot
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: pfsense
+      app: pf-pot
   template:
     metadata:
       labels:
-        app: pfsense
+        app: pf-pot
     spec:
       nodeSelector:
         role: worker
       containers:
-      - name: cowrie
+      - name: pfsense-honeypot
         image: cjbates02/pfsense-honeypot
+        volumeMounts:
+        - name: honeypot-log-pvc
+          mountPath: /workspace/logs
         ports:
         - containerPort: 8000
           protocol: TCP
+      volumes:
+      - name: honeypot-log-pvc
+        persistentVolumeClaim:
+          claimName: honeypot-log-pvc
+

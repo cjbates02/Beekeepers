@@ -1,10 +1,11 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: logstash-pvc
+  name: honeypot-log-pvc
+  namespace: honeypot
 spec:
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   resources:
     requests:
-      storage: 5Gi # Adjust the size as needed
+      storage: 10Gi

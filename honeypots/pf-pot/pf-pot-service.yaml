@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: pfsense
+  name: pf-pot-service
   namespace: honeypot
 spec:
   type: NodePort
@@ -10,4 +10,4 @@ spec:
     targetPort: 8000
     protocol: TCP
   selector:
-    app: pfsense
+    app: pf-pot

