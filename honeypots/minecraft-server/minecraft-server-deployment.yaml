@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: minecraft-server
+  namespace: honeypot
+  labels:
+    app: minecraft-server
+spec:
+  replicas: 1 
+  selector:
+    matchLabels:
+      app: minecraft-server
+  template:
+    metadata:
+      labels:
+        app: minecraft-server
+    spec:
+      containers:
+      - name: minecraft-server
+        image: itzg/minecraft-server
+        ports:
+        - containerPort: 25565
+        env:
+        - name: EULA
+          value: "TRUE"
+        - name: MEMORY 
+          value: "8G"
+        resources:
+          limits:
+            memory: "8Gi"
+            cpu: "1500m"
+        volumeMounts:
+        - name: minecraft-data
+          mountPath: /data
+      volumes: 
+      - name: minecraft-data
+        persistentVolumeClaim:
+          claimName: minecraft-server-pvc
+
+
