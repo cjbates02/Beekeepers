@@ -4,9 +4,9 @@ metadata:
   name: pf-pot-service
   namespace: honeypot
 spec:
-  type: NodePort
+  type: LoadBalancer
   ports:
-  - port: 8000
+  - port: 443
     targetPort: 8000
     protocol: TCP
   selector:

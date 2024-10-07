@@ -4,9 +4,9 @@ metadata:
   name: cowrie
   namespace: honeypot
 spec:
-  type: NodePort
+  type: LoadBalancer
   ports:
-  - port: 2222
+  - port: 22
     targetPort: 2222
     protocol: TCP
   selector:
