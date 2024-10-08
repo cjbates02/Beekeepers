@@ -3,6 +3,9 @@ kind: Deployment
 metadata:
   name: pf-pot
   namespace: honeypot
+  labels:
+    app: pf-pot 
+    group: honeypots
 spec:
   replicas: 1
   selector:

@@ -5,6 +5,7 @@ metadata:
   namespace: monitoring
   labels:
     app: kibana
+    group: lan
 spec:
   replicas: 1
   selector:

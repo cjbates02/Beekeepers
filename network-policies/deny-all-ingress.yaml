@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: deny-group-to-group
+  namespace: monitoring
+spec:
+  podSelector:
+    matchLabels:
+      group: lan  # Applies to all pods with this label
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          group: honeypots  # Denies traffic from pods with this label

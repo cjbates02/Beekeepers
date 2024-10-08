@@ -3,6 +3,9 @@ kind: Deployment
 metadata:
   name: cowrie
   namespace: honeypot
+  labels:
+    app: cowrie 
+    group: honeypots
 spec:
   replicas: 1
   selector:

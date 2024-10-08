@@ -3,6 +3,8 @@ kind: Deployment
 metadata:
   name: elasticsearch
   namespace: monitoring
+  labels:
+    group: lan
 spec:
   replicas: 1
   selector:

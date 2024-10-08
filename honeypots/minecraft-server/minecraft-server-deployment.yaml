@@ -5,6 +5,7 @@ metadata:
   namespace: honeypot
   labels:
     app: minecraft-server
+    group: honeypots
 spec:
   replicas: 1 
   selector:
