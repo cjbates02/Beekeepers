@@ -2,7 +2,7 @@ body {
     font-family: Arial, sans-serif;
     margin: 0px;
     color: #333;
-    cursor: url('\bee.gif'), auto; /* Custom cursor */
+    cursor: url('\static\bee.gif'), auto; /* Custom cursor */
 }
 
 h1 {
@@ -50,14 +50,25 @@ nav {
     background-color: #f4a460; /* Sandy Brown color */
     padding: 10px;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
+/* Styling the Beekeepers header in the navbar */
+nav h1.cs-header {
+    font-size: 24px;
+    color: white;
+    margin: 0 0 10px 0;
+}
+
+/* Centering the navigation links */
 nav ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
-    display: flex; /* Display items horizontally */
-    justify-content: center; /* Center items horizontally */
+    display: flex;
+    justify-content: center;
 }
 
 nav ul li {
@@ -80,6 +91,7 @@ nav ul li a:hover {
     text-decoration: underline;
 }
 
+/* Background image styling */
 background {
     position: fixed;
 }
@@ -112,3 +124,66 @@ header {
     width: 150px; /* Adjust the width of the GIF as necessary */
     height: auto; /* Keeps the aspect ratio */
 }
+        /* General styling for page */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .background-container {
+            position: fixed;
+            top: 10;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* Ensure it stays behind content */
+        }
+
+        #background {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Grid Layout */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Flexible grid columns */
+            gap: 20px; /* Space between honeypots */
+            padding: 50px;
+            justify-content: center; /* Center the grid horizontally */
+            align-items: center; /* Center the grid vertically */
+            position: relative;
+            z-index: 1;
+            min-height: 10vh; /* Ensure the grid takes up the full viewport height */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Honeypot button styling */
+        .honeypot-button {
+            width: 150px;
+            height: 150px;
+            font-size: 18px;
+            font-weight: bold;
+            background-color: #f0c040;
+            border: 2px solid #e5a731;
+            border-radius: 10px;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .honeypot-button:hover {
+            background-color: #e5a731;
+            transform: scale(1.05);
+        }
+
+        /* Grid items positioning */
+        .honeypot-item {
+            display: flex;
+            justify-content: center; /* Center the button in its grid cell */
+            align-items: center;
+        }
