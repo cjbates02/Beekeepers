@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="../static/style.css">
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
     <title>Beekeepers</title>
 </head>
 <body>
     <header id="cs-nav">
-        <h1 class="cs-header">Honey Net</h1>
-        <p class="cs-subheader">Welcome to the Beekeepers' website. More information below:</p>
         <nav>
+            <h1 class="cs-header">Beekeepers</h1> <!-- Beekeepers text added here -->
             <ul>
                 <li><a href="{{url_for('incoming_traffic')}}" target="_blank">Incoming Traffic</a></li>
                 <li><a href="{{url_for('logs')}}" target="_blank">Logs</a></li>
@@ -20,12 +19,26 @@
         </nav>
     </header>
 
-    <!-- Add your GIF here -->
-    <img id="loading-gif" src="/static/bee.gif" alt="Loading GIF">
-
-    <div>
+    <!-- Background image section -->
+    <div class="background-container">
         <img id="background" src="/static/Honey comb.jpg" alt="Honeycomb Background">
     </div>
+
+    <!-- Grid Layout for Honeypot Logs -->
+    <div class="grid-container">
+        <div class="honeypot-item">
+            <button class="honeypot-button" onclick="window.location.href='{{ url_for('logs', id=1) }}'">Honeypot 1</button>
+        </div>
+        <div class="honeypot-item">
+            <button class="honeypot-button" onclick="window.location.href='{{ url_for('logs', id=2) }}'">Honeypot 2</button>
+        </div>
+        <div class="honeypot-item">
+            <button class="honeypot-button" onclick="window.location.href='{{ url_for('logs', id=3) }}'">Honeypot 3</button>
+        </div>
+      
+ 
+    </div>
+
 </body>
 </html>
 
