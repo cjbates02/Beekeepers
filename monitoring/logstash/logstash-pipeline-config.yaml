@@ -14,6 +14,8 @@ data:
     output {
       elasticsearch {
           hosts => ["http://elasticsearch:9200"]
-          index => "pfpot-logs-%{+YYYY.MM.dd}"      
+          index => "default-logs-%{+YYYY.MM.dd}"      
         }
     }
+        
+

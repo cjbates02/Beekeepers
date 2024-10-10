@@ -35,6 +35,8 @@ spec:
         env:
         - name: ELASTICSEARCH_HOST
           value: "elasticsearch:9200" # Adjust this if necessary
+        - name: xpack.monitoring.enabled
+          value: "true"
         resources:
           requests:
             memory: "1Gi"

@@ -9,9 +9,14 @@ data:
     - type: log
       enabled: true
       paths:
-        - /var/log/*.txt
-        - /var/log/*.log
+        - /var/log/log.txt
+        - /var/log/cowrie.log
+      fields_under_root: true
+
+
     output.logstash:
+      fields_under_root:
+          - source: ${path}
       hosts: ["logstash.monitoring.svc.cluster.local:5044"] 
 
   
