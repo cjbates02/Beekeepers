@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: packet-sniffer
+  namespace: honeypot
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: packet-sniffer
+  template:
+    metadata:
+      labels:
+        app: packet-sniffer
+    spec:
+      nodeSelector:
+        role: worker
+      hostNetwork: true  # Use the host network namespace
+      containers:
+        - name: busybox
+          image: dockersec/tcpdump  # Use a BusyBox image that includes tcpdump
+          command: ["tcpdump", "-i", "eno1", "-w", "/captures/capture.pcap", "-G", "60", "-W", "24"]
+          volumeMounts:
+            - name: packet-storage
+              mountPath: /captures  # Directory to store captured files
+          resources:
+            limits:
+              cpu: "100m"  # Limit CPU usage
+              memory: "128Mi"  # Limit memory usage
+      volumes:
+      - name: packet-storage
+        persistentVolumeClaim:
+          claimName: packet-sniffer-pvc

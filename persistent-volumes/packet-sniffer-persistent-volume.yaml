@@ -1,0 +1,12 @@
+apiVersion: v1 
+kind: PersistentVolume 
+metadata:
+  name: packet-sniffer-pv
+  namespace: honeypot
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: /persistent-volumes/packet-sniffer
