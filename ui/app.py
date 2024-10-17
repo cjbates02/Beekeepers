@@ -1,12 +1,28 @@
+##TEST CONMBINATION##
 from flask import Flask, render_template, jsonify
 import json
 import os
+from flask_httpauth import HTTPBasicAuth
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
+auth = HTTPBasicAuth()
+
+users = {
+    "admin": generate_password_hash("secret"),
+    "user1": generate_password_hash("password1"),
+}
+
+@auth.verify_password
+def verify_password(username, password):
+    if username in users and check_password_hash(users.get(username), password):
+        return username
+    return None
 
 @app.route('/')
 def home():
     return render_template('app.html')
+
 
 @app.route('/logs')
 def logs():
@@ -30,6 +46,7 @@ def grafana():
     return render_template('grafana.html')
 
 @app.route('/incoming-traffic')
+@auth.login_required
 def incoming_traffic():
     return render_template('incoming-traffic.html')
 
@@ -39,4 +56,3 @@ def login_page():
 
 if __name__ == '__main__':
     app.run(debug=True)
-
