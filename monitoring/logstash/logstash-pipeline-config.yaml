@@ -48,7 +48,7 @@ data:
 
       # Clean up fields common to both log types
       mutate {
-        remove_field => ["agent", "ecs", "host", "log", "input", "event", "tags"]
+        remove_field => ["message", "agent", "ecs", "host", "log", "input", "event", "tags"]
       }
     }
 
