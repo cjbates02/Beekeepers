@@ -20,14 +20,14 @@ data:
             }
         }
 
-      # If the above doesn't match, try a simpler pattern without cowrie_component/log_level
-      if ![cowrie_component] {
-        grok {
-          match => { 
-            "message" => "%{TIMESTAMP_ISO8601:log_timestamp} stdout F %{TIMESTAMP_ISO8601:message_timestamp} %{GREEDYDATA:log_message}"
-          }
-        }
-      }
+      # # If the above doesn't match, try a simpler pattern without cowrie_component/log_level
+      # if ![cowrie_component] {
+      #   grok {
+      #     match => { 
+      #       "message" => "%{TIMESTAMP_ISO8601:log_timestamp} stdout F %{TIMESTAMP_ISO8601:message_timestamp} %{GREEDYDATA:log_message}"
+      #     }
+      #   }
+      # }
 
       if [cowrie_component] {
       #Further break down cowrie_component into subservice and component
