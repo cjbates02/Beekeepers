@@ -16,7 +16,7 @@ data:
       if "cowrie" in [tags] {
         grok {
           match => {
-            "message" => "%{TIMESTAMP_ISO8601:log_timestamp} stdout F %{TIMESTAMP_ISO8601:message_timestamp} \[%{DATA:cowrie_component}#%{WORD:log_level}\] %{GREEDYDATA:log_message}"          }
+            "message" => "%{TIMESTAMP_ISO8601:log_timestamp} stdout F %{TIMESTAMP_ISO8601:message_timestamp} \[%{WORD:service}\.%{WORD:subservice}\.%{WORD:component}#%{WORD:log_level}\] %{GREEDYDATA:log_message}"          }
         }
 
         # Add a label for the log type
