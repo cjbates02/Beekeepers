@@ -4,9 +4,12 @@ import json
 import os
 from flask_httpauth import HTTPBasicAuth
 from werkzeug.security import generate_password_hash, check_password_hash
+from elasticsearch import Elasticsearch
 
 app = Flask(__name__)
 auth = HTTPBasicAuth()
+
+es = Elasticsearch(["http://10.0.10.14:9200"])
 
 users = {
     "admin": generate_password_hash("secret"),
@@ -26,16 +29,23 @@ def home():
 
 @app.route('/logs')
 def logs():
-    # Get the absolute path to the JSON file
-    file_path = os.path.join(os.path.dirname(__file__), 'test_data.json')
-    print(file_path)
+    
+    response = es.search(
+        index="pfpot-logs-*",  # Assuming your logs are in 'logs-index'
+        body={
+            "query": {
+                "match_all": {}  # Adjust this to fetch specific logs, filters can be applied here
+            }
+        }
+    )
+    
+    # Extracting the logs from the response
+    logs_data = response['hits']['hits']
+    formatted_logs = [log['_source'] for log in logs_data]
 
-    with open(file_path, 'r') as file:
-        logs_data = json.load(file)
-    print(logs_data)
-
+    return render_template('logs.html', logs=formatted_logs)
     # Pass the logs to the logs.html template
-    return render_template('logs.html', logs=logs_data['logs'])
+    # return render_template('logs.html', logs=logs_data['logs'])
 
 @app.route('/alerts')
 def alerts():
