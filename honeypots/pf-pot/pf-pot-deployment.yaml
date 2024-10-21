@@ -24,7 +24,7 @@ spec:
         resources:
           limits:
             memory: "512Mi"
-            cpu: "500m"
+            cpu: "1000m"
         volumeMounts:
         - name: honeypot-log-pvc
           mountPath: /workspace/logs
