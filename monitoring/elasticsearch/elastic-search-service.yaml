@@ -4,10 +4,9 @@ metadata:
   name: elasticsearch
   namespace: monitoring
 spec:
-  type: NodePort
+  type: LoadBalancer
   ports:
   - port: 9200
-    nodePort: 30000
     targetPort: 9200
     protocol: TCP
   selector:

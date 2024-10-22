@@ -3,32 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="../static/style.css">
     <title>Logs</title>
 </head>
 <body>
-    <div class="container">
-        <div class="box">
-            <h2>Logs</h2>
-            <ul id="log-list">
-                {% if logs %}
-                    {% for log in logs %}
-                    <li>
-                        <strong>Timestamp:</strong> {{ log.timestamp }}<br>
-                        <strong>Source IP:</strong> {{ log.source_ip }}<br>
-                        <strong>Destination IP:</strong> {{ log.destination_ip }}<br>
-                        <strong>Event Type:</strong> {{ log.event_type }}<br>
-                        <strong>Protocol:</strong> {{ log.protocol }}<br>
-                        <strong>Port:</strong> {{ log.port }}<br>
-                        <strong>Status:</strong> {{ log.status }}<br>
-                        <strong>Description:</strong> {{ log.description }}<br><br>
-                    </li>
-                    {% endfor %}
-                {% else %}
-                    <li>No logs available.</li>
-                {% endif %}
-            </ul>
-        </div>
-    </div>
+    <h1>Logs</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Timestamp</th>
+                <th>Log Type</th>
+                <th>Message</th>
+                <th>IP Address</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for log in logs %}
+            <tr>
+                <td>{{ log['@timestamp'] }}</td>
+                <td>{{ log['log_type'] }}</td>
+                <td>{{ log['message'] }}</td>
+                <td>{{ log['ip_address'] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </body>
 </html>

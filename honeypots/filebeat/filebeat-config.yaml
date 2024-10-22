@@ -6,20 +6,19 @@ metadata:
 data:
   filebeat.yml: |
     filebeat.inputs:
+    # Input for Cowrie Logs
+    - type: log
+      enabled: true
+      paths:
+        - /var/log/cowrie.log
+      tags: ["cowrie"]
+
+    # Input for PFPot Logs
     - type: log
       enabled: true
       paths:
         - /var/log/log.txt
-        - /var/log/cowrie.log
-      fields_under_root: true
-
+      tags: ["pfpot"]
 
     output.logstash:
-      fields_under_root:
-          - source: ${path}
-      hosts: ["logstash.monitoring.svc.cluster.local:5044"] 
-
-  
-
-
-    
+      hosts: ["logstash.monitoring.svc.cluster.local:5044"]

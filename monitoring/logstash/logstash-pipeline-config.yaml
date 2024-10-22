@@ -11,11 +11,61 @@ data:
       }
     }
 
-    output {
-      elasticsearch {
-          hosts => ["http://elasticsearch:9200"]
-          index => "default-logs-%{+YYYY.MM.dd}"      
+    filter {
+      # Parse Cowrie logs
+      if "cowrie" in [tags] {
+        grok {
+          match => {
+            "message" => "%{TIMESTAMP_ISO8601:log_timestamp} stdout F %{TIMESTAMP_ISO8601:message_timestamp} \[%{DATA:cowrie_component}#%{WORD:log_level}\] %{GREEDYDATA:log_message}"          
+            }
         }
-    }
-        
 
+        # Add a label for the log type
+        mutate {
+          add_field => { "log_type" => "cowrie" }
+        }
+      }
+
+      # Parse pfpot logs
+      if "pfpot" in [tags] {
+        grok {
+          match => { 
+            "message" => "Time: %{TIMESTAMP_ISO8601:timestamp}, Username: %{WORD:username}, Password: %{WORD:password}, IP: %{IP:ip_address}" 
+          }
+        }
+        
+        mutate {
+          add_field => { "log_type" => "pfpot" }
+        }
+
+        # Set the proper timestamp field
+        date {
+          match => ["timestamp", "ISO8601"]
+          target => "@timestamp"
+          remove_field => ["timestamp"]
+        }
+      }
+
+      # Clean up fields common to both log types
+      mutate {
+        remove_field => ["message", "agent", "ecs", "host", "log", "input", "event", "tags"]
+      }
+    }
+
+    output {
+      # Separate indices based on log type
+      if [log_type] == "cowrie" {
+        elasticsearch {
+          hosts => ["http://elasticsearch:9200"]
+          index => "cowrie-logs-%{+YYYY.MM.dd}"
+        }
+      }
+      else if [log_type] == "pfpot" {
+        elasticsearch {
+          hosts => ["http://elasticsearch:9200"]
+          index => "pfpot-logs-%{+YYYY.MM.dd}"
+        }
+      }
+
+      stdout { codec => rubydebug }  # For debugging
+    }
