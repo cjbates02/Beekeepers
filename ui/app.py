@@ -2,6 +2,7 @@
 from flask import Flask, render_template, jsonify
 import json
 import os
+import mysql.connector
 from flask_httpauth import HTTPBasicAuth
 from werkzeug.security import generate_password_hash, check_password_hash
 from elasticsearch import Elasticsearch

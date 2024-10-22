@@ -4,6 +4,8 @@ metadata:
   name: elk-pv
   namespace: monitoring
 spec:
+  nodeSelector:
+    role: master
   capacity:
     storage: 50Gi
   accessModes:

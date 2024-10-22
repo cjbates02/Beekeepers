@@ -8,4 +8,7 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 
-CMD ["sh", "-c", "tcpdump -i any -U -w - | socat - TCP-LISTEN:12345,fork"]
+EXPOSE 8888
+
+#CMD ["sh", "-c", "socat - TCP-LISTEN:8888,fork"]
+CMD ["sh", "-c", "tcpdump -i any -U -w - | socat - TCP-LISTEN:8888,fork"]
