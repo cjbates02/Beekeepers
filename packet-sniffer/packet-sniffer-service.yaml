@@ -5,9 +5,9 @@ metadata:
   namespace: honeypot
 spec:
   selector:
-    app: tcpdump-socat
+    app: packet-sniffer
   ports:
     - protocol: TCP
       port: 6000
-      targetPort: 6000
+      targetPort: 6565
   type: LoadBalancer
