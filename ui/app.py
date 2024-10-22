@@ -5,7 +5,7 @@ import os
 import mysql.connector
 from flask_httpauth import HTTPBasicAuth
 from werkzeug.security import generate_password_hash, check_password_hash
-from elasticsearch import Elasticsearch
+from elasticsearch import Elasticsearch, ConnectionError, ConnectionTimeout
 
 app = Flask(__name__)
 auth = HTTPBasicAuth()
@@ -28,25 +28,29 @@ def home():
     return render_template('app.html')
 
 
-@app.route('/logs')
-def logs():
-    
-    response = es.search(
-        index="pfpot-logs-*",  # Assuming your logs are in 'logs-index'
-        body={
-            "query": {
-                "match_all": {}  # Adjust this to fetch specific logs, filters can be applied here
+@app.route('/logs/<honeypot>')
+def logs(honeypot):
+    try:
+        response = es.search(
+            index=f"{honeypot}-logs-*",  # Assuming your logs are in 'logs-index'
+            body={
+                "query": {
+                    "match_all": {}  # Adjust this to fetch specific logs, filters can be applied here
+                }
             }
-        }
-    )
-    
-    # Extracting the logs from the response
-    logs_data = response['hits']['hits']
-    formatted_logs = [log['_source'] for log in logs_data]
+        )
+        logs_data = response['hits']['hits']
+        formatted_logs = [log['_source'] for log in logs_data]
 
-    return render_template('logs.html', logs=formatted_logs)
-    # Pass the logs to the logs.html template
-    # return render_template('logs.html', logs=logs_data['logs'])
+        return render_template('logs.html', logs=formatted_logs)
+    except ConnectionError:
+        print("Fail to connect to Elasticsearch")
+        return "Fail to connect to Elasticsearch"
+    except ConnectionTimeout:
+        print("Fail to connect to Elasticsearch")
+        return "Fail to connect to Elasticsearch"
+    
+
 
 @app.route('/alerts')
 def alerts():

@@ -12,7 +12,7 @@
             <h1 class="cs-header">Beekeepers</h1> <!-- Beekeepers text added here -->
             <ul>
                 <li><a href="{{url_for('incoming_traffic')}}" target="_blank">Incoming Traffic</a></li>
-                <li><a href="{{url_for('logs')}}" target="_blank">Logs</a></li>
+                <li><a href="" target="_blank">Logs</a></li>
                 <li><a href="{{url_for('grafana')}}" target="_blank">Grafana</a></li>
                 <li><a href="{{url_for('alerts')}}" target="_blank">Alerts</a></li>
             </ul>
@@ -27,17 +27,19 @@
     <!-- Grid Layout for Honeypot Logs -->
     <div class="grid-container">
         <div class="honeypot-item">
-            <button class="honeypot-button" onclick="window.location.href='{{ url_for('logs', id=1) }}'">Honeypot 1</button>
+            <button class="honeypot-button" onclick="changeLogURL('cowrie')">Cowrie</button>
         </div>
         <div class="honeypot-item">
-            <button class="honeypot-button" onclick="window.location.href='{{ url_for('logs', id=2) }}'">Honeypot 2</button>
-        </div>
-        <div class="honeypot-item">
-            <button class="honeypot-button" onclick="window.location.href='{{ url_for('logs', id=3) }}'">Honeypot 3</button>
+            <button class="honeypot-button" onclick="changeLogURL('pfpot')">pfPot</button>
         </div>
         
  
     </div>
+    <script>
+        function changeLogURL(honeypot) {
+            window.location.href = `/logs/${honeypot}`
+        }
+    </script>
 
 </body>
 </html>
