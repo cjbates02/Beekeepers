@@ -19,20 +19,18 @@
         <table>
             <thead>
                 <tr>
-                    <th class="timestamp">Timestamp</th>
-                    <th class="log-type">Log Type</th>
-                    <th class="message">Message</th>
-                    <th class="ip-address">IP Address</th>
+                    {% for header in headers %}
+                        <th>{{ header }}</th>
+                    {% endfor %}
                 </tr>
             </thead>
             <tbody>
                 {% for log in logs %}
-                <tr>
-                    <td data-label="Timestamp">{{ log['@timestamp'] }}</td>
-                    <td data-label="Log Type">{{ log['log_type'] }}</td>
-                    <td data-label="Message">{{ log['message'] }}</td>
-                    <td data-label="IP Address">{{ log['ip_address'] }}</td>
-                </tr>
+                    <tr>
+                        {% for header in headers %}
+                            <td>{{ log[header] }}</td>
+                        {% endfor %}
+                    </tr>
                 {% endfor %}
             </tbody>
         </table>

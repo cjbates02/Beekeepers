@@ -17,6 +17,8 @@ users = {
     "user1": generate_password_hash("password1"),
 }
 
+
+
 @auth.verify_password
 def verify_password(username, password):
     if username in users and check_password_hash(users.get(username), password):
@@ -32,17 +34,19 @@ def home():
 def logs(honeypot):
     try:
         response = es.search(
-            index=f"{honeypot}-logs-*",  # Assuming your logs are in 'logs-index'
+            index=f"{honeypot}-logs-*",  
             body={
                 "query": {
-                    "match_all": {}  # Adjust this to fetch specific logs, filters can be applied here
+                    "match_all": {}  
                 }
             }
         )
         logs_data = response['hits']['hits']
+        logs_data = logs_data[::-1]
         formatted_logs = [log['_source'] for log in logs_data]
-
-        return render_template('logs.html', logs=formatted_logs)
+        headers = formatted_logs[0].keys()
+        print(headers)
+        return render_template('logs.html', logs=formatted_logs, headers=headers)
     except ConnectionError:
         print("Fail to connect to Elasticsearch")
         return "Fail to connect to Elasticsearch"
