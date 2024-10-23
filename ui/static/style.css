@@ -187,3 +187,87 @@ header {
             justify-content: center; /* Center the button in its grid cell */
             align-items: center;
         }
+        /* Table Styling for Logs */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+}
+
+th {
+    background-color: #f8f8f8;
+    color: #333;
+    font-weight: bold;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+tr:hover {
+    background-color: #e9e9e9;
+}
+
+.timestamp {
+    width: 25%;
+}
+
+.log-type {
+    width: 15%;
+}
+
+.message {
+    width: 40%;
+}
+
+.ip-address {
+    width: 20%;
+}
+/* Header container to position the title and back button */
+.header-container {
+    display: flex;
+    justify-content: flex-start; /* Align items to the left */
+    align-items: center;
+    margin: 20px 0;
+}
+
+/* Center the title */
+.title {
+    margin: 0 20px; /* Add some margin on the sides */
+    text-align: center;
+    flex-grow: 1; /* Allow title to take up remaining space */
+    font-size: 28px;
+}
+
+/* Small red box for the back button positioned on the left */
+.back-box {
+    background-color: #ff4d4d; /* Red background */
+    padding: 10px;
+    border-radius: 5px;
+}
+
+/* Back Button Styling */
+.back-button {
+    background-color: transparent; /* Remove button background */
+    color: white; /* Set text color to white */
+    padding: 8px 15px;
+    border: none; /* Remove border */
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.back-button:hover {
+    background-color: #ff6666; /* Slightly darker red on hover */
+    color: white; /* Keep text white on hover */
+}

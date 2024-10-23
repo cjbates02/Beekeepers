@@ -3,29 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/style.css">
     <title>Logs</title>
 </head>
 <body>
-    <h1>Logs</h1>
-    <table border="1">
-        <thead>
-            <tr>
-                <th>Timestamp</th>
-                <th>Log Type</th>
-                <th>Message</th>
-                <th>IP Address</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for log in logs %}
-            <tr>
-                <td>{{ log['@timestamp'] }}</td>
-                <td>{{ log['log_type'] }}</td>
-                <td>{{ log['message'] }}</td>
-                <td>{{ log['ip_address'] }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+
+    <div class="header-container">
+        <div class="back-box">
+            <button class="back-button" onclick="goBack()">Go Back</button>
+        </div>
+        <h1 class="title">Logs</h1>
+    </div>
+
+    <div class="log-container">
+        <table>
+            <thead>
+                <tr>
+                    <th class="timestamp">Timestamp</th>
+                    <th class="log-type">Log Type</th>
+                    <th class="message">Message</th>
+                    <th class="ip-address">IP Address</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for log in logs %}
+                <tr>
+                    <td data-label="Timestamp">{{ log['@timestamp'] }}</td>
+                    <td data-label="Log Type">{{ log['log_type'] }}</td>
+                    <td data-label="Message">{{ log['message'] }}</td>
+                    <td data-label="IP Address">{{ log['ip_address'] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="footer">
+        <p>&copy; 2024 Beekeepers Logs | All rights reserved.</p>
+    </div>
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+
 </body>
 </html>
