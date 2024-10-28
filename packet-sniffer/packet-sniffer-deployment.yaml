@@ -21,7 +21,7 @@ spec:
           image: cjbates02/tcpdump-socat:latest
           ports:
           - containerPort: 6565
-          command: ["sh", "-c", "tcpdump -i eno1 -U -w - | socat - TCP-LISTEN:6565,fork"]
+          command: ["sh", "-c", "tcpdump -n -i eno1 -U -B 8192 -w - | socat - TCP-LISTEN:6565,fork"]
           resources:
             limits:
               cpu: "100m"  # Limit CPU usage
