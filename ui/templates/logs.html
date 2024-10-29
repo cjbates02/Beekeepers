@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -10,10 +10,11 @@
 
     <div class="header-container">
         <div class="back-box">
-            <button class="back-button" onclick="goBack()">Go Back</button>
+            <button class="button back-button" onclick="goBack()">Go Back</button>
+            <button class="button refresh-button" onclick="refreshPage()">Refresh</button>
         </div>
         <h1 class="title">Logs</h1>
-    </div>
+    </div>    
 
     <div class="log-container">
         <table>
@@ -37,14 +38,18 @@
     </div>
 
     <div class="footer">
-        <p>&copy; 2024 Beekeepers Logs | All rights reserved.</p>
+        <p>&copy; 2024 Beekeepers Logs | All rights reserved to CJ.</p>
     </div>
 
     <script>
         function goBack() {
             window.history.back();
         }
-    </script>
+    
+        function refreshPage() {
+            location.reload(); // Reload the current page
+        }
+    </script>    
 
 </body>
 </html>

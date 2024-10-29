@@ -34,11 +34,15 @@ def home():
 def logs(honeypot):
     try:
         response = es.search(
-            index=f"{honeypot}-logs-*",  
+            index=f"{honeypot}-logs-new-*",  
             body={
                 "query": {
                     "match_all": {}  
-                }
+                },
+                "sort": [
+                    {"@timestamp": {"order": "desc"}}
+                ],
+                "size": 100
             }
         )
         logs_data = response['hits']['hits']

@@ -3,47 +3,29 @@ body {
     margin: 0px;
     color: #333;
     cursor: url('\static\bee.gif'), auto; /* Custom cursor */
+
 }
 
-h1 {
-    color:  #f4a460;
-}
-
-.container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-}
-
-.box {
-    border: 1px solid #ddd;
-    border-radius: 5px;
+.log-container {
     padding: 15px;
-    width: 45%;
-    min-width: 300px;
+    overflow-x: auto; /* Allow horizontal scrolling if needed */
 }
 
-.box h2 {
-    margin-top: 0;
-    font-size: 18px;
-    color: #333;
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    table-layout: fixed; /* Ensure equal column widths */
 }
 
-.box ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
+th, td {
+    padding: 12px;
+    text-align: left;
+    overflow: hidden; /* Prevent text overflow */
+    text-overflow: ellipsis; /* Show ellipsis for overflow text */
+    white-space: nowrap; /* Prevent line breaks in table cells */
 }
 
-.box ul li {
-    background-color: #f9f9f9;
-    border-bottom: 1px solid #ddd;
-    padding: 10px;
-}
-
-.box ul li:last-child {
-    border-bottom: none;
-}
 
 /* Style for the navigation bar */
 nav {
@@ -247,27 +229,82 @@ tr:hover {
     flex-grow: 1; /* Allow title to take up remaining space */
     font-size: 28px;
 }
-
-/* Small red box for the back button positioned on the left */
-.back-box {
-    background-color: #ff4d4d; /* Red background */
-    padding: 10px;
+/* General button styling */
+.button {
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 10px; /* Spacing between buttons */
+    cursor: pointer;
     border-radius: 5px;
 }
 
-/* Back Button Styling */
+/* Back Button - Red */
 .back-button {
-    background-color: transparent; /* Remove button background */
-    color: white; /* Set text color to white */
-    padding: 8px 15px;
-    border: none; /* Remove border */
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: bold;
+    background-color: #ff4d4d; /* Red background */
 }
 
 .back-button:hover {
-    background-color: #ff6666; /* Slightly darker red on hover */
-    color: white; /* Keep text white on hover */
+    background-color: #ff6666; /* Darker red on hover */
 }
+
+/* Refresh Button - Orange */
+.refresh-button {
+    background-color: #ffa500; /* Orange background */
+}
+
+.refresh-button:hover {
+    background-color: #ffcc66; /* Lighter orange on hover */
+}
+
+/* Container for buttons */
+.back-box {
+    display: inline-block;
+    margin: 10px 0;
+}
+
+/* Styling for header */
+.header-container {
+    text-align: center; /* Center the content of the header */
+    margin-bottom: 20px;
+}
+
+/* Center the "Logs" title */
+.title {
+    font-size: 32px;
+    font-weight: bold;
+    margin: 20px 0;
+}
+
+/* Log container */
+.log-container {
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+/* Table styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+/* Footer styling */
+.footer {
+    text-align: center;
+    padding: 10px 0;
+    background-color: #f1f1f1;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
+
