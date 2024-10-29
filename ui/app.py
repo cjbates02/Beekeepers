@@ -50,7 +50,7 @@ def logs(honeypot):
         formatted_logs = [log['_source'] for log in logs_data]
         headers = formatted_logs[0].keys()
         print(headers)
-        return render_template('logs.html', logs=formatted_logs, headers=headers)
+        return render_template('logs.html', honeypot=honeypot, logs=formatted_logs, headers=headers)
     except ConnectionError:
         print("Fail to connect to Elasticsearch")
         return "Fail to connect to Elasticsearch"
