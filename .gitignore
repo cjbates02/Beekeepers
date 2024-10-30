@@ -12,3 +12,4 @@ packet-analysis-tool/.venv
 packet-analysis-tool/temp
 packet-analysis-tool/testing/__pycache__
 packet-analysis-tool/testing/.pytest_cache
+ui/.env
