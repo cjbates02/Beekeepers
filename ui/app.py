@@ -5,7 +5,7 @@ import os
 import mysql.connector
 from flask_httpauth import HTTPBasicAuth
 from werkzeug.security import generate_password_hash, check_password_hash
-from elasticsearch import Elasticsearch
+from elasticsearch import Elasticsearch, ConnectionError, ConnectionTimeout
 
 app = Flask(__name__)
 auth = HTTPBasicAuth()
@@ -16,6 +16,8 @@ users = {
     "admin": generate_password_hash("secret"),
     "user1": generate_password_hash("password1"),
 }
+
+
 
 @auth.verify_password
 def verify_password(username, password):
@@ -28,25 +30,35 @@ def home():
     return render_template('app.html')
 
 
-@app.route('/logs')
-def logs():
-    
-    response = es.search(
-        index="pfpot-logs-*",  # Assuming your logs are in 'logs-index'
-        body={
-            "query": {
-                "match_all": {}  # Adjust this to fetch specific logs, filters can be applied here
+@app.route('/logs/<honeypot>')
+def logs(honeypot):
+    try:
+        response = es.search(
+            index=f"{honeypot}-logs-new-*",  
+            body={
+                "query": {
+                    "match_all": {}  
+                },
+                "sort": [
+                    {"@timestamp": {"order": "desc"}}
+                ],
+                "size": 100
             }
-        }
-    )
+        )
+        logs_data = response['hits']['hits']
+        logs_data = logs_data[::-1]
+        formatted_logs = [log['_source'] for log in logs_data]
+        headers = formatted_logs[0].keys()
+        print(headers)
+        return render_template('logs.html', honeypot=honeypot, logs=formatted_logs, headers=headers)
+    except ConnectionError:
+        print("Fail to connect to Elasticsearch")
+        return "Fail to connect to Elasticsearch"
+    except ConnectionTimeout:
+        print("Fail to connect to Elasticsearch")
+        return "Fail to connect to Elasticsearch"
     
-    # Extracting the logs from the response
-    logs_data = response['hits']['hits']
-    formatted_logs = [log['_source'] for log in logs_data]
 
-    return render_template('logs.html', logs=formatted_logs)
-    # Pass the logs to the logs.html template
-    # return render_template('logs.html', logs=logs_data['logs'])
 
 @app.route('/alerts')
 def alerts():
