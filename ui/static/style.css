@@ -1,9 +1,9 @@
 body {
     font-family: Arial, sans-serif;
-    margin: 0px;
     color: #333;
-    cursor: url('\static\bee.gif'), auto; /* Custom cursor */
-
+    cursor: url('realistic-bee.cur'), auto !important; /* Custom cursor */
+    margin: 0;
+    padding: 0;
 }
 
 .log-container {
@@ -98,78 +98,64 @@ header {
     display: block;
 }
 
-/* Add styles to position the GIF at the upper-right corner */
-#loading-gif {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 150px; /* Adjust the width of the GIF as necessary */
-    height: auto; /* Keeps the aspect ratio */
+
+.background-container {
+    position: fixed;
+    top: 10;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Ensure it stays behind content */
 }
-        /* General styling for page */
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-        }
 
-        .background-container {
-            position: fixed;
-            top: 10;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1; /* Ensure it stays behind content */
-        }
+#background {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
 
-        #background {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+/* Grid Layout */
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Flexible grid columns */
+    gap: 20px; /* Space between honeypots */
+    padding: 50px;
+    justify-content: center; /* Center the grid horizontally */
+    align-items: center; /* Center the grid vertically */
+    position: relative;
+    z-index: 1;
+    min-height: 10vh; /* Ensure the grid takes up the full viewport height */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
-        /* Grid Layout */
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Flexible grid columns */
-            gap: 20px; /* Space between honeypots */
-            padding: 50px;
-            justify-content: center; /* Center the grid horizontally */
-            align-items: center; /* Center the grid vertically */
-            position: relative;
-            z-index: 1;
-            min-height: 10vh; /* Ensure the grid takes up the full viewport height */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+/* Honeypot button styling */
+.honeypot-button {
+    width: 150px;
+    height: 150px;
+    font-size: 18px;
+    font-weight: bold;
+    background-color: #f0c040;
+    border: 2px solid #e5a731;
+    border-radius: 10px;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
 
-        /* Honeypot button styling */
-        .honeypot-button {
-            width: 150px;
-            height: 150px;
-            font-size: 18px;
-            font-weight: bold;
-            background-color: #f0c040;
-            border: 2px solid #e5a731;
-            border-radius: 10px;
-            color: white;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-        }
+.honeypot-button:hover {
+    background-color: #e5a731;
+    transform: scale(1.05);
+}
 
-        .honeypot-button:hover {
-            background-color: #e5a731;
-            transform: scale(1.05);
-        }
-
-        /* Grid items positioning */
-        .honeypot-item {
-            display: flex;
-            justify-content: center; /* Center the button in its grid cell */
-            align-items: center;
-        }
-        /* Table Styling for Logs */
+/* Grid items positioning */
+.honeypot-item {
+    display: flex;
+    justify-content: center; /* Center the button in its grid cell */
+    align-items: center;
+}
+/* Table Styling for Logs */
 table {
     width: 100%;
     border-collapse: collapse;
