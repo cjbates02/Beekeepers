@@ -1,5 +1,5 @@
 ##TEST CONMBINATION##
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify, request, flash, redirect, url_for
 from user_db import User, validate_credentials
 import json
 import os
@@ -9,6 +9,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from elasticsearch import Elasticsearch, ConnectionError, ConnectionTimeout
 
 app = Flask(__name__)
+app.secret_key = 'beekeepers'
 auth = HTTPBasicAuth()
 
 es = Elasticsearch(["http://10.0.10.14:9200"])
@@ -26,9 +27,24 @@ def verify_password(username, password):
         return username
     return None
 
-@app.route('/')
+@app.route('/')  #Starts at Login Page
 def login_page():
     return render_template('Loginpage.html')
+
+@app.route('/login', methods=['POST'])
+def login():
+    # Retrieve username and password from the submitted form
+    username = request.form.get('username')
+    password = request.form.get('password')
+
+    # Use verify_password to check credentials
+    if verify_password(username, password):
+        # If valid, redirect to the homepage
+        return redirect(url_for('home'))
+    else:
+        # If invalid, show a flash message and redirect back to login page
+        flash('Invalid username or password. Please try again.')
+        return redirect(url_for('login_page'))
 
 @app.route('/homepage')
 def home():
