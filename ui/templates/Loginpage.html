@@ -26,6 +26,12 @@
             font-size: 24px;
             color: #333;
         }
+        .flash-messages {
+            color: #ff0000;
+            font-size: 14px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
         .login-container label {
             display: block;
             margin-bottom: 8px;
@@ -60,6 +66,15 @@
 <body>
     <div class="login-container">
         <h2>Login</h2>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for message in messages %}
+                        <p>{{ message }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
         <form action="/login" method="post">
             <label for="username">Username</label>
             <input type="text" id="username" name="username" required>
