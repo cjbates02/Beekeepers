@@ -1,5 +1,6 @@
 ##TEST CONMBINATION##
 from flask import Flask, render_template, jsonify
+from user_db import User, validate_credentials
 import json
 import os
 import mysql.connector
@@ -26,6 +27,10 @@ def verify_password(username, password):
     return None
 
 @app.route('/')
+def login_page():
+    return render_template('Loginpage.html')
+
+@app.route('/homepage')
 def home():
     return render_template('app.html')
 
@@ -73,9 +78,6 @@ def grafana():
 def incoming_traffic():
     return render_template('incoming-traffic.html')
 
-@app.route('/login')
-def login_page():
-    return render_template('Loginpage.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

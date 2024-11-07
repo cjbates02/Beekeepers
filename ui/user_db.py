@@ -46,9 +46,19 @@ class User:
         cnx.commit()
         cur.close()
         cnx.close()
+ 
 
-    
-    def validate_credentials(self, username_input, passowrd_input):
+    def update_username(self):
+        cnx = self.get_database_connection()
+        cur = cnx.cursor()
+        cur.close()
+        cnx.close()
+
+
+    def update_password(self):
+        pass
+
+def validate_credentials(self, username_input, passowrd_input):
         cnx = self.get_database_connection()
         cur = cnx.cursor()
         sql = "SELECT Password FROM Users WHERE Username=%s"
@@ -65,22 +75,15 @@ class User:
             return True
         print("Password is incorrect")
         return False
-    
 
-    def update_username(self):
-        pass
-
-
-    def update_password(self):
-        pass
 
 if __name__ == '__main__':
     user1 = User('username', 'password')
     #user1.create_user()
     #user1.delete_user(1)
-    user1.validate_credentials("username1", "password")
+    #user1.validate_credentials("username1", "password")
     user1.validate_credentials("username", "password")
-    user1.validate_credentials("username", "password1")
+    #user1.validate_credentials("username", "password1")
 
 
 
