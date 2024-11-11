@@ -37,7 +37,6 @@ def login():
     username = request.form.get('username')
     password = request.form.get('password')
 
-    # Use verify_password to check credentials
     if verify_password(username, password):
         # If valid, redirect to the homepage
         return redirect(url_for('home'))
@@ -90,7 +89,6 @@ def grafana():
     return render_template('grafana.html')
 
 @app.route('/incoming-traffic')
-@auth.login_required
 def incoming_traffic():
     return render_template('incoming-traffic.html')
 
