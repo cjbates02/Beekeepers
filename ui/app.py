@@ -1,6 +1,7 @@
 ##TEST CONMBINATION##
-from flask import Flask, render_template, jsonify, request, flash, redirect, url_for
-from user_db import User, validate_credentials
+from flask import Flask, render_template, jsonify, request, flash, redirect, url_for, session
+from user_db import User
+import uuid
 import json
 import os
 import mysql.connector
@@ -19,13 +20,10 @@ users = {
     "user1": generate_password_hash("password1"),
 }
 
-
-
-@auth.verify_password
-def verify_password(username, password):
-    if username in users and check_password_hash(users.get(username), password):
-        return username
-    return None
+def check_authentication():
+    if session.get('uid', None):
+        return True
+    return False
 
 @app.route('/')  #Starts at Login Page
 def login_page():
@@ -35,9 +33,11 @@ def login_page():
 def login():
     # Retrieve username and password from the submitted form
     username = request.form.get('username')
-    password = request.form.get('password')
+    unhashed_password = request.form.get('password')
+    user = User(username, unhashed_password)
 
-    if verify_password(username, password):
+    if user.validate_credentials(username, unhashed_password):
+        session['uid'] = uuid.uuid4()
         # If valid, redirect to the homepage
         return redirect(url_for('home'))
     else:
@@ -47,7 +47,11 @@ def login():
 
 @app.route('/homepage')
 def home():
-    return render_template('app.html')
+    if check_authentication():
+        return render_template('app.html')
+    flash('User not authenticated')
+    return redirect(url_for('login_page'))
+    
 
 
 @app.route('/logs/<honeypot>')
@@ -71,6 +75,7 @@ def logs(honeypot):
         headers = formatted_logs[0].keys()
         print(headers)
         return render_template('logs.html', honeypot=honeypot, logs=formatted_logs, headers=headers)
+        
     except ConnectionError:
         print("Fail to connect to Elasticsearch")
         return "Fail to connect to Elasticsearch"

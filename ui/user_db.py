@@ -58,7 +58,8 @@ class User:
     def update_password(self):
         pass
 
-def validate_credentials(self, username_input, passowrd_input):
+
+    def validate_credentials(self, username_input, password_input):
         cnx = self.get_database_connection()
         cur = cnx.cursor()
         sql = "SELECT Password FROM Users WHERE Username=%s"
@@ -70,11 +71,12 @@ def validate_credentials(self, username_input, passowrd_input):
             return False
         cur.close()
         cnx.close()
-        if check_password_hash(hashed_password[0], passowrd_input):
+        if check_password_hash(hashed_password[0], password_input):
             print("Successful validation of username and password")
             return True
         print("Password is incorrect")
         return False
+
 
 
 if __name__ == '__main__':
