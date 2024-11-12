@@ -9,22 +9,20 @@
 <body>
     <header id="cs-nav">
         <nav>
-            <h1 class="cs-header">Beekeepers</h1> <!-- Beekeepers text added here -->
+            <h1 class="cs-header">Beekeepers</h1>
             <ul>
-                <li><a href="{{url_for('incoming_traffic')}}" target="_blank">Incoming Traffic</a></li>
-                <li><a href="" target="_blank">Logs</a></li>
-                <li><a href="{{url_for('grafana')}}" target="_blank">Grafana</a></li>
-                <li><a href="{{url_for('alerts')}}" target="_blank">Alerts</a></li>
+                <li><a href="{{url_for('incoming_traffic')}}" target="_blank">Data</a></li>
+                <li><a href="{{url_for('grafana')}}" target="_blank">Matris</a></li>
+                <li><a href="{{url_for('grafana')}}" target="_blank">Status</a></li>
+                <li><a href="{{url_for('alerts')}}" target="_blank">ResultType</a></li>
             </ul>
         </nav>
     </header>
 
-    <!-- Background image section -->
     <div class="background-container">
         <img id="background" src="/static/Honey comb.jpg" alt="Honeycomb Background">
     </div>
 
-    <!-- Grid Layout for Honeypot Logs -->
     <div class="grid-container">
         <div class="honeypot-item">
             <button class="honeypot-button" onclick="changeLogURL('cowrie')">Cowrie</button>
@@ -32,15 +30,123 @@
         <div class="honeypot-item">
             <button class="honeypot-button" onclick="changeLogURL('pfpot')">pfPot</button>
         </div>
-        
- 
     </div>
+
     <script>
         function changeLogURL(honeypot) {
-            window.location.href = `/logs/${honeypot}`
+            window.location.href = `/logs/${honeypot}`;
         }
+
+        // Define the log data
+        const logs = [
+            {
+                timestamp: "2024-11-05 01:14:31",
+                metric: "container_cpu_usage_seconds_total",
+                container: "app-container",
+                pod: "app-pod-1",
+                node: "node-1",
+                value: "0.053 seconds"
+            },
+            {
+                timestamp: "2024-11-05 01:14:31",
+                metric: "container_memory_usage_bytes",
+                container: "app-container",
+                pod: "app-pod-1",
+                node: "node-1",
+                value: "84.3 MB"
+            },
+            {
+                timestamp: "2024-11-05 01:14:31",
+                metric: "container_network_receive_bytes_total",
+                container: "app-container",
+                pod: "app-pod-1",
+                node: "node-1",
+                value: "1.9 MB"
+            },
+            {
+                timestamp: "2024-11-05 01:14:31",
+                metric: "container_network_transmit_bytes_total",
+                container: "app-container",
+                pod: "app-pod-1",
+                node: "node-1",
+                value: "987.7 KB"
+            },
+            {
+                timestamp: "2024-11-05 01:14:31",
+                metric: "container_cpu_usage_seconds_total",
+                container: "db-container",
+                pod: "db-pod-1",
+                node: "node-2",
+                value: "0.102 seconds"
+            },
+            {
+                timestamp: "2024-11-05 01:14:31",
+                metric: "container_memory_usage_bytes",
+                container: "db-container",
+                pod: "db-pod-1",
+                node: "node-2",
+                value: "173.4 MB"
+            },
+            {
+                timestamp: "2024-11-05 01:14:31",
+                metric: "container_network_receive_bytes_total",
+                container: "db-container",
+                pod: "db-pod-1",
+                node: "node-2",
+                value: "3.8 MB"
+            },
+            {
+                timestamp: "2024-11-05 01:14:31",
+                metric: "container_network_transmit_bytes_total",
+                container: "db-container",
+                pod: "db-pod-1",
+                node: "node-2",
+                value: "562.8 KB"
+            }
+        ];
+
+        // Function to populate the log table
+        function populateLogTable() {
+            const tableBody = document.getElementById('log-table-body');
+            
+            // Iterate over the logs array and add rows to the table
+            logs.forEach(log => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${log.timestamp}</td>
+                    <td>${log.metric}</td>
+                    <td>${log.container}</td>
+                    <td>${log.pod}</td>
+                    <td>${log.node}</td>
+                    <td>${log.value}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Call the function to populate the table when the page loads
+        window.onload = populateLogTable;
     </script>
 
+    <!-- Table for Metrics Log Grid -->
+    <div class="log-grid-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Timestamp</th>
+                    <th>Metric</th>
+                    <th>Container</th>
+                    <th>Pod</th>
+                    <th>Node</th>
+                    <th>Value</th>
+                </tr>
+            </thead>
+            <tbody id="log-table-body">
+                <!-- Log entries will be dynamically inserted here -->
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>
+
 

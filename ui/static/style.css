@@ -1,10 +1,13 @@
 body {
     font-family: Arial, sans-serif;
     color: #333;
-    cursor: url('realistic-bee.cur'), auto !important; /* Custom cursor */
     margin: 0;
     padding: 0;
 }
+
+img  {
+    cursor: url(\static\realistic-bee.cur) ;
+ }
 
 .log-container {
     padding: 15px;

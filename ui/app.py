@@ -69,9 +69,9 @@ def logs(honeypot):
 def alerts():
     return render_template('alerts.html')
 
-@app.route('/grafana')
+@app.route('/status')
 def grafana():
-    return render_template('grafana.html')
+    return render_template('status.html')
 
 @app.route('/incoming-traffic')
 @auth.login_required
@@ -81,3 +81,5 @@ def incoming_traffic():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+
