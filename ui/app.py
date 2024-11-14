@@ -1,7 +1,7 @@
 ##TEST CONMBINATION##
-from prometheus_api_client import PrometheusConnect
-from flask import Flask, render_template, jsonify, request, flash, redirect, url_for
-from user_db import User, validate_credentials
+from flask import Flask, render_template, jsonify, request, flash, redirect, url_for, session
+from user_db import User
+import uuid
 import json
 import os
 import mysql.connector
@@ -22,11 +22,10 @@ users = {
     "user1": generate_password_hash("password1"),
 }
 
-@auth.verify_password
-def verify_password(username, password):
-    if username in users and check_password_hash(users.get(username), password):
-        return username
-    return None
+def check_authentication():
+    if session.get('uid', None):
+        return True
+    return False
 
 @app.route('/')  # Starts at Login Page
 def login_page():
@@ -35,9 +34,12 @@ def login_page():
 @app.route('/login', methods=['POST'])
 def login():
     username = request.form.get('username')
-    password = request.form.get('password')
+    unhashed_password = request.form.get('password')
+    user = User(username, unhashed_password)
 
-    if verify_password(username, password):
+    if user.validate_credentials(username, unhashed_password):
+        session['uid'] = uuid.uuid4()
+        # If valid, redirect to the homepage
         return redirect(url_for('home'))
     else:
         flash('Invalid username or password. Please try again.')
@@ -45,7 +47,12 @@ def login():
 
 @app.route('/homepage')
 def home():
-    return render_template('app.html')
+    if check_authentication():
+        return render_template('app.html')
+    flash('User not authenticated')
+    return redirect(url_for('login_page'))
+    
+
 
 @app.route('/logs/<honeypot>')
 def logs(honeypot):
@@ -61,50 +68,43 @@ def logs(honeypot):
         logs_data = response['hits']['hits'][::-1]
         formatted_logs = [log['_source'] for log in logs_data]
         headers = formatted_logs[0].keys()
-        return render_template('logs.html', honeypot=honeypot, logs=formatted_logs, headers=headers)
-    except (ConnectionError, ConnectionTimeout):
-        return "Failed to connect to Elasticsearch"
+        print(headers)
+        if check_authentication():
+            return render_template('logs.html', honeypot=honeypot, logs=formatted_logs, headers=headers)
+        flash('User not authenticated')
+        return redirect(url_for('login_page'))
+        
+        
+    except ConnectionError:
+        print("Fail to connect to Elasticsearch")
+        return "Fail to connect to Elasticsearch"
+    except ConnectionTimeout:
+        print("Fail to connect to Elasticsearch")
+        return "Fail to connect to Elasticsearch"
+    
 
-@app.route('/metrics')
-def get_metrics():
-    # Define a list of Prometheus metric queries
-    metric_queries = {
-        "cpu_usage": 'container_cpu_usage_seconds_total',
-        "memory_usage": 'container_memory_usage_bytes',
-        "network_receive": 'container_network_receive_bytes_total',
-        "network_transmit": 'container_network_transmit_bytes_total'
-    }
-
-    pod_metrics = {}
-
-    # Loop through each metric query and retrieve data from Prometheus
-    for metric_name, query in metric_queries.items():
-        data = prom.custom_query(query=query)
-
-        for item in data:
-            pod_name = item['metric'].get('pod', 'unknown_pod')  # Get pod name
-            value = item['value'][1]  # Metric value
-
-            # Initialize pod entry if not present
-            if pod_name not in pod_metrics:
-                pod_metrics[pod_name] = {}
-
-            # Add the metric to the pod's dictionary
-            pod_metrics[pod_name][metric_name] = value
-
-    return jsonify(pod_metrics)
 
 @app.route('/alerts')
 def alerts():
-    return render_template('alerts.html')
+    if check_authentication():
+        return render_template('alerts.html')
+    flash('User not authenticated')
+    return redirect(url_for('login_page'))
 
 @app.route('/status')
 def grafana():
-    return render_template('status.html')
+    if check_authentication():
+        return render_template('status.html')
+    flash('User not authenticated')
+    return redirect(url_for('login_page'))
 
 @app.route('/incoming-traffic')
 def incoming_traffic():
-    return render_template('incoming-traffic.html')
+    if check_authentication():
+        return render_template('incoming-traffic.html')
+    flash('User not authenticated')
+    return redirect(url_for('login_page'))
+
 
 if __name__ == '__main__':
     app.run(debug=True)
