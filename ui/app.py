@@ -74,7 +74,11 @@ def logs(honeypot):
         formatted_logs = [log['_source'] for log in logs_data]
         headers = formatted_logs[0].keys()
         print(headers)
-        return render_template('logs.html', honeypot=honeypot, logs=formatted_logs, headers=headers)
+        if check_authentication():
+            return render_template('logs.html', honeypot=honeypot, logs=formatted_logs, headers=headers)
+        flash('User not authenticated')
+        return redirect(url_for('login_page'))
+        
         
     except ConnectionError:
         print("Fail to connect to Elasticsearch")
@@ -87,15 +91,24 @@ def logs(honeypot):
 
 @app.route('/alerts')
 def alerts():
-    return render_template('alerts.html')
+    if check_authentication():
+        return render_template('alerts.html')
+    flash('User not authenticated')
+    return redirect(url_for('login_page'))
 
 @app.route('/status')
 def grafana():
-    return render_template('status.html')
+    if check_authentication():
+        return render_template('status.html')
+    flash('User not authenticated')
+    return redirect(url_for('login_page'))
 
 @app.route('/incoming-traffic')
 def incoming_traffic():
-    return render_template('incoming-traffic.html')
+    if check_authentication():
+        return render_template('incoming-traffic.html')
+    flash('User not authenticated')
+    return redirect(url_for('login_page'))
 
 
 if __name__ == '__main__':
