@@ -13,6 +13,8 @@ app = Flask(__name__)
 app.secret_key = 'beekeepers'
 auth = HTTPBasicAuth()
 
+# Initialize Prometheus and Elasticsearch connections
+prom = PrometheusConnect(url="http://localhost:9090", disable_ssl=True)
 es = Elasticsearch(["http://10.0.10.14:9200"])
 
 users = {
@@ -25,13 +27,12 @@ def check_authentication():
         return True
     return False
 
-@app.route('/')  #Starts at Login Page
+@app.route('/')  # Starts at Login Page
 def login_page():
     return render_template('Loginpage.html')
 
 @app.route('/login', methods=['POST'])
 def login():
-    # Retrieve username and password from the submitted form
     username = request.form.get('username')
     unhashed_password = request.form.get('password')
     user = User(username, unhashed_password)
@@ -41,7 +42,6 @@ def login():
         # If valid, redirect to the homepage
         return redirect(url_for('home'))
     else:
-        # If invalid, show a flash message and redirect back to login page
         flash('Invalid username or password. Please try again.')
         return redirect(url_for('login_page'))
     
@@ -67,17 +67,12 @@ def logs(honeypot):
         response = es.search(
             index=f"{honeypot}-logs-new-*",  
             body={
-                "query": {
-                    "match_all": {}  
-                },
-                "sort": [
-                    {"@timestamp": {"order": "desc"}}
-                ],
+                "query": {"match_all": {}},
+                "sort": [{"@timestamp": {"order": "desc"}}],
                 "size": 100
             }
         )
-        logs_data = response['hits']['hits']
-        logs_data = logs_data[::-1]
+        logs_data = response['hits']['hits'][::-1]
         formatted_logs = [log['_source'] for log in logs_data]
         headers = formatted_logs[0].keys()
         print(headers)
@@ -120,5 +115,3 @@ def incoming_traffic():
 
 if __name__ == '__main__':
     app.run(debug=True)
-
-
