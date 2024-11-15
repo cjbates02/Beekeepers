@@ -44,6 +44,13 @@ def login():
         # If invalid, show a flash message and redirect back to login page
         flash('Invalid username or password. Please try again.')
         return redirect(url_for('login_page'))
+    
+@app.route('/create-account')
+def create():
+    if check_authentication():
+        return render_template('createacc.html')
+    flash('User not authenticated')
+    return redirect(url_for('login_page'))
 
 @app.route('/homepage')
 def home():
