@@ -14,27 +14,25 @@ data:
     filter {
       # Parse Cowrie logs
       if "cowrie" in [tags] {
+        # Main Grok pattern for parsing log timestamp, cowrie_component, and log_message
         grok {
           match => {
-            # Capture everything inside the brackets as cowrie_component
             "message" => "%{TIMESTAMP_ISO8601:log_timestamp} stdout F %{TIMESTAMP_ISO8601:message_timestamp} \[%{DATA:cowrie_component}\] %{GREEDYDATA:log_message}"
           }
-          overwrite => ["log_message"]  # Prevent duplication
+          overwrite => ["log_message"]
         }
 
-        # If cowrie_component follows the structured pattern, break it down further
+        # Additional parsing of cowrie_component structure if matched
         if [cowrie_component] =~ /^[a-zA-Z]+\.[a-zA-Z]+\.[a-zA-Z]+#[a-zA-Z]+$/ {
           grok {
             match => {
               "cowrie_component" => "%{WORD:service}\.%{WORD:subservice}\.%{WORD:component}#%{LOGLEVEL:log_level}"
             }
-            overwrite => ["service", "subservice", "component", "log_level"]  # Prevent duplication
+            overwrite => ["service", "subservice", "component", "log_level"]
           }
         }
 
-        # Parse different message types
-
-        # Case 1: New SSH connection
+        # Specific log_message patterns for further parsing
         if [log_message] =~ /New connection:/ {
           grok {
             match => {
@@ -42,59 +40,59 @@ data:
             }
             overwrite => ["log_message"]
           }
-        }
 
-        # Case 2: SSH login attempt
-        else if [log_message] =~ /login attempt/ {
+          # GeoIP enrichment for remote_ip
+          geoip {
+            source => "remote_ip"
+            target => "geoip"
+          }
+
+        } else if [log_message] =~ /login attempt/ {
           grok {
             match => {
-              "log_message" => "login attempt \[b'%{USER:username}'/b'%{DATA:password}'] %{WORD:status}"
+              "log_message" => "login attempt \[b'(?<username>[^']+)'/b'(?<password>[^']+)'] %{WORD:status}"
             }
             overwrite => ["log_message"]
           }
-        }
 
-        # Case 3: SSH fingerprint log
-        else if [log_message] =~ /SSH client hassh fingerprint:/ {
+        } else if [log_message] =~ /SSH client hassh fingerprint:/ {
           grok {
             match => {
               "log_message" => "SSH client hassh fingerprint: %{DATA:ssh_fingerprint}"
             }
             overwrite => ["log_message"]
           }
-        }
 
-        # Case 4: SSH kex algorithm
-        else if [log_message] =~ /kex alg=/ {
+        } else if [log_message] =~ /kex alg=/ {
           grok {
             match => {
               "log_message" => "kex alg=%{DATA:kex_alg} key alg=%{DATA:key_alg}"
             }
             overwrite => ["log_message"]
           }
-        }
 
-        # Case 5: Executing commands
-        else if [log_message] =~ /Executing command/ {
+        } else if [log_message] =~ /Executing command/ {
           grok {
             match => {
-              "log_message" => "Executing command \"%{GREEDYDATA:command}\""
+              "log_message" => "Executing command \"b'(?<command>[^']+)'\""
             }
             overwrite => ["log_message"]
           }
-        }
 
-        # Case 6: CMD logs from SSH session
-        else if [log_message] =~ /CMD:/ {
+        } else if [log_message] =~ /CMD:/ {
           grok {
             match => {
               "log_message" => "CMD: %{GREEDYDATA:cmd}"
             }
             overwrite => ["log_message"]
           }
-        }
 
-        # Generic fallback Grok pattern if no specific pattern is matched
+        } else if [cowrie_component] =~ /HoneyPotSSHTransport#info/ and [log_message] =~ /connection lost/ {
+          grok {
+            match => { "log_message" => "connection lost" }
+          }
+
+        } # Generic fallback pattern if no specific pattern matches
         else {
           grok {
             match => { "log_message" => "%{GREEDYDATA:log_message}" }
@@ -102,7 +100,16 @@ data:
           }
         }
 
-        # Add a label for the log type
+        # Remove `b' '` wrappers specifically from log_message if present
+        mutate {
+          gsub => [
+            "log_message", "b'([^']*)'", "\1",
+            "message", "b'([^']*)'", "\1",
+            "cowrie_component", "b'([^']*)'", "\1",
+            "key_alg", "b'([^']*)'", "\1"
+          ]
+        }
+
         mutate {
           add_field => { "log_type" => "cowrie" }
         }
@@ -131,7 +138,7 @@ data:
 
       # Clean up fields common to both log types
       mutate {
-        remove_field => ["message_timestamp", "agent", "ecs", "host", "log", "input", "event", "tags", "version"]
+        remove_field => ["message_timestamp", "agent", "ecs", "host", "log", "input", "event", "tags", "@version"]
       }
     }
 
@@ -149,6 +156,5 @@ data:
           index => "pfpot-logs-new-%{+YYYY.MM.dd}"
         }
       }
-
       stdout { codec => rubydebug }  # For debugging
     }
