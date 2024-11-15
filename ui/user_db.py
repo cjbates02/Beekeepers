@@ -81,10 +81,10 @@ class User:
 
 if __name__ == '__main__':
     user1 = User('username', 'password')
-    #user1.create_user()
+    user1.create_user()
     #user1.delete_user(1)
     #user1.validate_credentials("username1", "password")
-    user1.validate_credentials("username", "password")
+    # user1.validate_credentials("username", "password")
     #user1.validate_credentials("username", "password1")
 
 
