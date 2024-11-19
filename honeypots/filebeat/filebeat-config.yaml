@@ -13,6 +13,12 @@ data:
         - /var/log/cowrie.log
       tags: ["cowrie"]
 
+    - type: log
+      enabled: true
+      paths:
+        - /var/log/cowrie.json
+      tags: ["cowrie_json"]
+
     # Input for PFPot Logs
     - type: log
       enabled: true
