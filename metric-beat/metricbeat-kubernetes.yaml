@@ -157,8 +157,8 @@ data:
           templates:
             - config:
                 - module: kubernetes
-                  hosts: ["kube-state-metrics:8080"]
-                  period: 10s
+                  hosts: ["prometheus-kube-state-metrics.monitoring.svc.cluster.local:8080"]
+                  period: 2m
                   add_metadata: true
                   metricsets:
                     - state_namespace
@@ -187,7 +187,7 @@ data:
                   bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
                   ssl.certificate_authorities:
                     - /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
-                  period: 30s
+                  period: 2m
                 # Uncomment this to get k8s events:
                 #- module: kubernetes
                 #  metricsets:
@@ -198,7 +198,10 @@ data:
         #  hints.enabled: true
 
     output.elasticsearch:
-      hosts: ['${ELASTICSEARCH_HOST:elasticsearch}:${ELASTICSEARCH_PORT:9200}']
+      hosts: ["http://elasticsearch.monitoring.svc.cluster.local:9200/"]
+    setup.kibana:
+      host: "http://kibana.monitoring.svc.cluster.local:5601"
+    setup.dashboard.enabled: true
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -210,7 +213,7 @@ metadata:
 data:
   system.yml: |-
     - module: system
-      period: 10s
+      period: 2m
       metricsets:
         - cpu
         - load
@@ -242,7 +245,7 @@ data:
         - pod
         - container
         - volume
-      period: 10s
+      period: 2m
       host: ${NODE_NAME}
       hosts: ["https://${NODE_NAME}:10250"]
       bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
@@ -254,7 +257,7 @@ data:
     - module: kubernetes
       metricsets:
         - proxy
-      period: 10s
+      period: 2m
       host: ${NODE_NAME}
       hosts: ["localhost:10249"]
       # If using Red Hat OpenShift should be used this `hosts` setting instead:

@@ -1,0 +1,2 @@
+curl -g "http://10.0.10.15:9090/api/v1/query?query={job=\"kubelet\",kubernetes_io_hostname=~\".*\"}"
+
