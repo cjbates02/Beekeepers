@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: logstash
+  namespace: monitoring
+  labels:
+    app: logstash
+    group: lan
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: logstash
+  template:
+    metadata:
+      labels:
+        app: logstash
+    spec:
+      tolerations:
+      - key: "node-role.kubernetes.io/control-plane"
+        operator: "Exists"
+        effect: "NoSchedule"
+      nodeSelector:
+        role: master
+      containers:
+      - name: logstash
+        image: docker.elastic.co/logstash/logstash:8.5.0 # Use the appropriate version
+        lifecycle:
+            postStart:
+              exec:
+                command: ["curl", "http://10.0.10.16:5000/geolite2 ", "-o", "/usr/share/logstash/GeoLite2-City.mmdb"]
+        volumeMounts:
+        - name: logstash-pipeline
+          mountPath: /usr/share/logstash/pipeline/logstash.conf
+          subPath: logstash.conf
+        # - name: geolite2-volume
+          # mountPath: /usr/share/logstash/GeoLite2-City.mmdb   # This should be the path in your logstash.conf file
+        ports:
+        - containerPort: 5044 # Default port for beats input
+        - containerPort: 9600
+        env:
+        - name: ELASTICSEARCH_HOST
+          value: "elasticsearch:9200" # Adjust this if necessary
+        - name: xpack.monitoring.enabled
+          value: "true"
+        resources:
+          requests:
+            memory: "1Gi"
+            cpu: "500m"
+          limits:
+            memory: "2Gi"
+            cpu: "1"
+      volumes:
+      - name: logstash-pipeline
+        configMap:
+          name: logstash-config
+      # - name: geolite2-volume
+      #   persistentVolumeClaim:
+      #     claimName: geolite2-pvc

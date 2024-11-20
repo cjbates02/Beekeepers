@@ -1,0 +1,88 @@
+{
+    "status": "success",
+    "data": {
+      "resultType": "vector",
+      "result": [
+        {
+          "metric": {
+            "__name__": "container_cpu_usage_seconds_total",
+            "container": "app-container",
+            "pod": "app-pod-1",
+            "namespace": "default",
+            "node": "node-1"
+          },
+          "value": [1699174471.123, "0.053"]
+        },
+        {
+          "metric": {
+            "__name__": "container_memory_usage_bytes",
+            "container": "app-container",
+            "pod": "app-pod-1",
+            "namespace": "default",
+            "node": "node-1"
+          },
+          "value": [1699174471.123, "84327424"]
+        },
+        {
+          "metric": {
+            "__name__": "container_network_receive_bytes_total",
+            "container": "app-container",
+            "pod": "app-pod-1",
+            "namespace": "default",
+            "node": "node-1"
+          },
+          "value": [1699174471.123, "1928374"]
+        },
+        {
+          "metric": {
+            "__name__": "container_network_transmit_bytes_total",
+            "container": "app-container",
+            "pod": "app-pod-1",
+            "namespace": "default",
+            "node": "node-1"
+          },
+          "value": [1699174471.123, "987654"]
+        },
+        {
+          "metric": {
+            "__name__": "container_cpu_usage_seconds_total",
+            "container": "db-container",
+            "pod": "db-pod-1",
+            "namespace": "default",
+            "node": "node-2"
+          },
+          "value": [1699174471.123, "0.102"]
+        },
+        {
+          "metric": {
+            "__name__": "container_memory_usage_bytes",
+            "container": "db-container",
+            "pod": "db-pod-1",
+            "namespace": "default",
+            "node": "node-2"
+          },
+          "value": [1699174471.123, "173420544"]
+        },
+        {
+          "metric": {
+            "__name__": "container_network_receive_bytes_total",
+            "container": "db-container",
+            "pod": "db-pod-1",
+            "namespace": "default",
+            "node": "node-2"
+          },
+          "value": [1699174471.123, "3849283"]
+        },
+        {
+          "metric": {
+            "__name__": "container_network_transmit_bytes_total",
+            "container": "db-container",
+            "pod": "db-pod-1",
+            "namespace": "default",
+            "node": "node-2"
+          },
+          "value": [1699174471.123, "562839"]
+        }
+      ]
+    }
+  }

@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: geolite-api
+  namespace: monitoring
+  labels:
+    app: geolite-api 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: geolite-api
+  template:
+    metadata:
+      labels:
+        app: geolite-api
+    spec:
+      nodeSelector:
+        role: master
+      containers:
+      - name: geolite-api
+        image: cjbates02/geolite_api
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "1000m"
+
+

@@ -1,0 +1,19 @@
+output {
+    if [program] == "log.txt" {
+      elasticsearch {
+        hosts => ["http://elasticsearch:9200"]
+        index => "pf-pot-logs-%{+YYYY.MM.dd}"
+      }
+    } else if [program] == "cowrie.log" {
+        elasticsearch {
+          hosts => ["http://elasticsearch:9200"]
+          index => "cowrie-logs-%{+YYYY.MM.dd}"
+        }
+      }
+      else {
+        elasticsearch {
+          hosts => ["http://elasticsearch:9200"]
+          index => "logs-logs-%{+YYYY.MM.dd}"
+        }
+      }
+    }

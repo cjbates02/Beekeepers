@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{},"name":"cowrie","namespace":"honeypot"},"spec":{"ports":[{"port":22,"protocol":"TCP","targetPort":2222}],"selector":{"app":"cowrie"},"type":"LoadBalancer"}}
+    metallb.universe.tf/ip-allocated-from-pool: honeypot-pool
+  creationTimestamp: "2024-09-23T20:43:24Z"
+  name: cowrie
+  namespace: honeypot
+  resourceVersion: "2337995"
+  uid: b9c272a2-76fb-4e98-b7bf-2241efa26a5c
+spec:
+  allocateLoadBalancerNodePorts: true
+  clusterIP: 10.104.14.76
+  clusterIPs:
+  - 10.104.14.76
+  externalTrafficPolicy: Local
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - nodePort: 30100
+    port: 22
+    protocol: TCP
+    targetPort: 2222
+  selector:
+    app: cowrie
+  sessionAffinity: None
+  type: LoadBalancer
+status:
+  loadBalancer:
+    ingress:
+    - ip: 10.0.10.10
+      ipMode: VIP

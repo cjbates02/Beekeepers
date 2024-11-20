@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: filebeat-config
+  namespace: honeypot
+data:
+  filebeat.yml: |
+    filebeat.inputs:
+    # Input for Cowrie Logs
+    - type: log
+      enabled: true
+      paths:
+        - /var/log/cowrie.log
+      tags: ["cowrie"]
+
+    - type: log
+      enabled: true
+      paths:
+        - /var/log/cowrie.json
+      tags: ["cowrie_json"]
+
+    # Input for PFPot Logs
+    - type: log
+      enabled: true
+      paths:
+        - /var/log/log.txt
+      tags: ["pfpot"]
+
+    output.logstash:
+      hosts: ["logstash.monitoring.svc.cluster.local:5044"]

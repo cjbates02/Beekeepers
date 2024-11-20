@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: grafana
+  namespace: monitoring
+spec:
+  type: NodePort
+  ports:
+  - port: 3000
+    targetPort: 3000
+    protocol: TCP
+    nodePort: 30002 # Change to your preferred port
+  selector:
+    app: grafana

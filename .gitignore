@@ -1,0 +1,15 @@
+Scripts/
+Lib/
+Include/
+pyvenv.cfg
+git-commands.txt
+./honeynet/kubernetes_manifests/.cowrie-deployment.yaml.swp
+test_data.json
+ui/__pycache__
+.venv
+secrets/
+packet-analysis-tool/.venv
+packet-analysis-tool/temp
+packet-analysis-tool/testing/__pycache__
+packet-analysis-tool/testing/.pytest_cache
+ui/.env

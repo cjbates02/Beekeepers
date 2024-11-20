@@ -1,0 +1,299 @@
+body {
+    font-family: Arial, sans-serif;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+img  {
+    cursor: url(\static\realistic-bee.cur) ;
+ }
+
+.log-container {
+    padding: 15px;
+    overflow-x: auto; /* Allow horizontal scrolling if needed */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    table-layout: fixed; /* Ensure equal column widths */
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    overflow: hidden; /* Prevent text overflow */
+    text-overflow: ellipsis; /* Show ellipsis for overflow text */
+    white-space: nowrap; /* Prevent line breaks in table cells */
+}
+
+
+/* Style for the navigation bar */
+nav {
+    background-color: #f4a460; /* Sandy Brown color */
+    padding: 10px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Styling the Beekeepers header in the navbar */
+nav h1.cs-header {
+    font-size: 24px;
+    color: white;
+    margin: 0 0 10px 0;
+}
+
+/* Centering the navigation links */
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+}
+
+nav ul li {
+    margin: 0 10px; /* Space between boxes */
+}
+
+nav ul li a {
+    display: block;
+    padding: 10px 20px;
+    background-color: #fff;
+    color: #f4a460;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 5px; /* Rounded corners */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Shadow effect */
+}
+
+nav ul li a:hover {
+    background-color: #e0e0e0; /* Light gray on hover */
+    text-decoration: underline;
+}
+
+/* Background image styling */
+background {
+    position: fixed;
+}
+
+.cs-nav {
+    width: 100%;
+    box-sizing: border-box;
+    position: fixed;
+    z-index: 100;
+}
+
+header {
+    text-align: left;
+}
+
+.cs-header {
+    font-size: 14/16rem;
+    display: block;
+}
+
+.cs-subheader {
+    display: block;
+}
+
+
+.background-container {
+    position: fixed;
+    top: 10;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Ensure it stays behind content */
+}
+
+#background {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Grid Layout */
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Flexible grid columns */
+    gap: 20px; /* Space between honeypots */
+    padding: 50px;
+    justify-content: center; /* Center the grid horizontally */
+    align-items: center; /* Center the grid vertically */
+    position: relative;
+    z-index: 1;
+    min-height: 10vh; /* Ensure the grid takes up the full viewport height */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Honeypot button styling */
+.honeypot-button {
+    width: 150px;
+    height: 150px;
+    font-size: 18px;
+    font-weight: bold;
+    background-color: #f0c040;
+    border: 2px solid #e5a731;
+    border-radius: 10px;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.honeypot-button:hover {
+    background-color: #e5a731;
+    transform: scale(1.05);
+}
+
+/* Grid items positioning */
+.honeypot-item {
+    display: flex;
+    justify-content: center; /* Center the button in its grid cell */
+    align-items: center;
+}
+/* Table Styling for Logs */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+}
+
+th {
+    background-color: #f8f8f8;
+    color: #333;
+    font-weight: bold;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+tr:hover {
+    background-color: #e9e9e9;
+}
+
+.timestamp {
+    width: 25%;
+}
+
+.log-type {
+    width: 15%;
+}
+
+.message {
+    width: 40%;
+}
+
+.ip-address {
+    width: 20%;
+}
+/* Header container to position the title and back button */
+.header-container {
+    display: flex;
+    justify-content: flex-start; /* Align items to the left */
+    align-items: center;
+    margin: 20px 0;
+}
+
+/* Center the title */
+.title {
+    margin: 0 20px; /* Add some margin on the sides */
+    text-align: center;
+    flex-grow: 1; /* Allow title to take up remaining space */
+    font-size: 28px;
+}
+/* General button styling */
+.button {
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 10px; /* Spacing between buttons */
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+/* Back Button - Red */
+.back-button {
+    background-color: #ff4d4d; /* Red background */
+}
+
+.back-button:hover {
+    background-color: #ff6666; /* Darker red on hover */
+}
+
+/* Refresh Button - Orange */
+.refresh-button {
+    background-color: #ffa500; /* Orange background */
+}
+
+.refresh-button:hover {
+    background-color: #ffcc66; /* Lighter orange on hover */
+}
+
+/* Container for buttons */
+.back-box {
+    display: inline-block;
+    margin: 10px 0;
+}
+
+/* Styling for header */
+.header-container {
+    text-align: center; /* Center the content of the header */
+    margin-bottom: 20px;
+}
+
+/* Center the "Logs" title */
+.title {
+    font-size: 32px;
+    font-weight: bold;
+    margin: 20px 0;
+}
+
+/* Log container */
+.log-container {
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+/* Table styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+/* Footer styling */
+.footer {
+    text-align: center;
+    padding: 10px 0;
+    background-color: #f1f1f1;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
+

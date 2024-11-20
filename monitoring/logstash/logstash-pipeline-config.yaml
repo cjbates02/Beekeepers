@@ -1,0 +1,192 @@
+Pipeline: apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: logstash-config
+  namespace: monitoring
+data:
+  logstash.conf: |
+    input {
+      beats {
+        port => 5044
+      }
+    }
+    filter {
+      if "cowrie" in [tags] {
+        # Main Grok pattern for parsing log timestamp, cowrie_component, and log_message
+        grok {
+          match => {
+            "message" => "%{TIMESTAMP_ISO8601:log_timestamp} stdout F %{TIMESTAMP_ISO8601:message_timestamp} \[%{DATA:cowrie_component}\] %{GREEDYDATA:log_message}"
+          }
+          overwrite => ["log_message"]
+        }
+
+        # If cowrie_component is not parsed, capture everything after 'stdout F' as log_message
+        if ![cowrie_component] {
+          grok {
+            match => {
+              "message" => "%{TIMESTAMP_ISO8601:log_timestamp} stdout F\s*%{GREEDYDATA:log_message}"
+            }
+            overwrite => ["log_message"]
+          }
+        }
+
+        # Extract IP from cowrie_component if present
+        if [cowrie_component] =~ /\d+\.\d+\.\d+\.\d+/ {
+          grok {
+            match => { "cowrie_component" => "(?<cowrie_ip>\d+\.\d+\.\d+\.\d+)" }
+            add_tag => ["parsed_cowrie_ip"]
+          }
+        }
+
+        # Determine primary_ip for GeoIP enrichment
+        if [remote_ip] and [cowrie_ip] {
+          mutate {
+            add_field => { "primary_ip" => "%{remote_ip}" }
+          }
+        } else if [cowrie_ip] {
+          mutate {
+            add_field => { "primary_ip" => "%{cowrie_ip}" }
+          }
+        } else if [remote_ip] {
+          mutate {
+            add_field => { "primary_ip" => "%{remote_ip}" }
+          }
+        }
+
+        # GeoIP enrichment for primary_ip
+        if [primary_ip] {
+          geoip {
+            source => "primary_ip"
+            target => "geoip"
+          }
+        }
+
+        # Additional parsing of cowrie_component structure
+        if [cowrie_component] =~ /^[a-zA-Z]+\.[a-zA-Z]+\.[a-zA-Z]+#[a-zA-Z]+$/ {
+          grok {
+            match => {
+              "cowrie_component" => "%{WORD:service}\.%{WORD:subservice}\.%{WORD:component}#%{LOGLEVEL:log_level}"
+            }
+            overwrite => ["service", "subservice", "component", "log_level"]
+          }
+        }
+
+        # Handle specific patterns in log_message
+        if [log_message] =~ /New connection:/ {
+          grok {
+            match => {
+              "log_message" => "New connection: %{IPV4:remote_ip}:%{INT:remote_port} \(%{IPV4:local_ip}:%{INT:local_port}\) \[session: %{GREEDYDATA:session_id}\]"
+            }
+            overwrite => ["log_message"]
+          }
+          geoip {
+            source => "remote_ip"
+            target => "geoip"
+          }
+        } else if [log_message] =~ /login attempt/ {
+          grok {
+            match => {
+              "log_message" => "login attempt \[b'(?<username>[^']+)'/b'(?<password>[^']+)'] %{WORD:status}"
+            }
+            overwrite => ["log_message"]
+          }
+        } else if [log_message] =~ /SSH client hassh fingerprint:/ {
+          grok {
+            match => {
+              "log_message" => "SSH client hassh fingerprint: %{DATA:ssh_fingerprint}"
+            }
+            overwrite => ["log_message"]
+          }
+        } else if [log_message] =~ /kex alg=/ {
+          grok {
+            match => {
+              "log_message" => "kex alg=%{DATA:kex_alg} key alg=%{DATA:key_alg}"
+            }
+            overwrite => ["log_message"]
+          }
+        } else if [log_message] =~ /Executing command/ {
+          grok {
+            match => {
+              "log_message" => "Executing command \"%{GREEDYDATA:command}\""
+            }
+            overwrite => ["log_message"]
+          }
+        } else if [log_message] =~ /CMD:/ {
+          grok {
+            match => {
+              "log_message" => "CMD: %{GREEDYDATA:command}"
+            }
+            overwrite => ["log_message"]
+          }
+        } else if [log_message] =~ /Command found/ {
+          grok {
+            match => {
+              "log_message" => "Command found: \"%{GREEDYDATA:command}\""
+            }
+            overwrite => ["log_message"]
+          }
+        }
+        else {
+          grok {
+            match => { "log_message" => "%{GREEDYDATA:log_message}" }
+            overwrite => ["log_message"]
+          }
+        } 
+
+        # Remove unnecessary b' wrappers
+        mutate {
+          gsub => [
+            "log_message", "b'([^']*)'", "\1",
+            "message", "b'([^']*)'", "\1",
+            "cowrie_component", "b'([^']*)'", "\1",
+            "key_alg", "b'([^']*)'", "\1"
+          ]
+        }
+        mutate {
+          add_field => { "log_type" => "cowrie" }
+        }
+      }
+      
+      # Parse pfpot logs
+      if "pfpot" in [tags] {
+        grok {
+          match => { 
+            "message" => "Time: %{TIMESTAMP_ISO8601:timestamp}, Username: %{USER:username}, Password: %{WORD:password}, IP: %{IP:ip_address}" 
+          }
+          overwrite => ["log_message"]
+        }
+        geoip {
+            source => "ip_address"
+            target => "geoip"
+          }
+        mutate {
+          add_field => { "log_type" => "pfpot" }
+        }
+
+        # Set the proper timestamp field
+        date {
+          match => ["timestamp", "ISO8601"]
+          target => "@timestamp"
+          remove_field => ["timestamp"]
+        }
+      }
+      # Clean up fields
+      mutate {
+        remove_field => ["message_timestamp", "agent", "ecs", "host", "log", "input", "event", "tags", "@version"]
+      }
+    }
+
+    output {
+      if [log_type] == "cowrie" {
+        elasticsearch {
+          hosts => ["http://elasticsearch:9200"]
+          index => "cowrie-logs-new-%{+YYYY.MM.dd}"
+        }
+      } else if [log_type] == "pfpot" {
+        elasticsearch {
+          hosts => ["http://elasticsearch:9200"]
+          index => "pfpot-logs-new-%{+YYYY.MM.dd}"
+        }
+      }
+      stdout { codec => rubydebug }
+    }

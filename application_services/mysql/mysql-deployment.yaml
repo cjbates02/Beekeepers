@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mysql-server
+  namespace: monitoring
+spec:
+  serviceName: mysql
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql-server
+  template:
+    metadata:
+      labels:
+        app: mysql-server
+    spec:
+      nodeSelector:
+        role: master
+      containers:
+        - name: mysql
+          image: mysql:latest
+          ports:
+            - containerPort: 3306
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secrets
+                  key: root-password
+          volumeMounts:
+            - name: mysql-pvc
+              mountPath: /var/lib/mysql
+            - name: mysql-config-volume
+              mountPath: /etc/mysql/conf.d
+      volumes:
+        - name: mysql-pvc
+          persistentVolumeClaim:
+            claimName: mysql-pvc
+        - name: mysql-config-volume
+          configMap:
+            name: mysql-config

@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: elasticsearch
+  namespace: monitoring
+  labels:
+    group: lan
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: elasticsearch
+  template:
+    metadata:
+      labels:
+        app: elasticsearch
+    spec:
+      tolerations:
+      - key: "node-role.kubernetes.io/control-plane"
+        operator: "Exists"
+        effect: "NoSchedule"  # Remove this if you don't want Elasticsearch on control-plane nodes
+      nodeSelector:
+        role: master  # Replace with the correct node label or remove if you want to run on any node
+      containers:
+      - name: elasticsearch
+        image: docker.elastic.co/elasticsearch/elasticsearch:8.5.0
+        resources:
+          requests:
+            memory: "1Gi"
+            cpu: "500m"
+          limits:
+            memory: "6Gi"
+            cpu: "4"
+        env:
+        - name: discovery.type
+          value: single-node
+        - name: xpack.security.http.ssl.enabled
+          value: "false"
+        - name: xpack.security.enabled
+          value: "false"
+        - name: ES_JAVA_OPTS
+          value: "-Xms2g -Xmx2g"  # Adjust the heap size for your resources
+        ports:
+        - containerPort: 9200
+          name: http
+        - containerPort: 9300
+          name: transport
+        volumeMounts:
+          - name: elasticsearch-storage  # Corrected the volume name
+            mountPath: /usr/share/elasticsearch/data
+      volumes:
+        - name: elasticsearch-storage  # Corrected the volume name
+          persistentVolumeClaim:
+            claimName: elasticsearch-pvc

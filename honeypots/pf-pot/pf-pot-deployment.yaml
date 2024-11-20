@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pf-pot
+  namespace: honeypot
+  labels:
+    app: pf-pot 
+    group: honeypots
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pf-pot
+  template:
+    metadata:
+      labels:
+        app: pf-pot
+    spec:
+      nodeSelector:
+        role: worker
+      containers:
+      - name: pfsense-honeypot
+        image: cjbates02/pfsense-honeypot
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "1000m"
+        volumeMounts:
+        - name: honeypot-log-pvc
+          mountPath: /workspace/logs
+        ports:
+        - containerPort: 8000
+          protocol: TCP
+      volumes:
+      - name: honeypot-log-pvc
+        persistentVolumeClaim:
+          claimName: honeypot-log-pvc
+
