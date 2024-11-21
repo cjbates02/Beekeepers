@@ -297,3 +297,97 @@ th, td {
     bottom: 0;
 }
 
+.admin-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 8px 16px;
+    background-color: #ffffff;
+    color: rgb(244, 164, 96);
+    border: 1px solid rgb(250, 250, 250);
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.admin-button:hover {
+    color: rgb(224, 144, 76);
+    background-color: #ffffff;
+    border-color: rgb(224, 144, 76);
+    border-radius: 4px;
+    text-decoration: underline;
+}
+
+#cs-nav {
+    position: relative;
+}
+
+/* Increase hexagon size even more to fit more text */
+.hexagon {
+    width: 180px; /* Increased size */
+    height: 180px; /* Increased size */
+    background-color: #e0a800; /* Mustard yellow color */
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    padding: 10px; /* Added padding to allow more text space */
+}
+
+/* Optional: Adjust grid layout for bigger hexagons */
+.hexagon-container {
+    display: flex;
+    gap: 50px; /* Increased gap to accommodate larger hexagons */
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.hexagon .metrics {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.hexagon .metrics span {
+    margin: 4px;
+}
+
+/* Hexagon Shape Styling */
+.hexagon {
+    width: 200px;
+    height: 200px;
+    background-color: #e0a800; /* Mustard yellow color */
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    padding: 10px;
+    gap: 5px; /* Space between elements */
+}
+
+/* Icon styles */
+.hexagon .icon {
+    font-size: 20px; /* Icon size */
+    color: white; /* Icon color */
+}
+
+/* Add hover effect for icons */
+.hexagon .icon:hover {
+    color: #f4a460; /* Change icon color on hover */
+}
+
+/* Optional: Styling for text to make it more readable inside hexagon */
+.hexagon span {
+    font-size: 14px;
+    margin-top: 5px; /* Space between icon and text */
+}
