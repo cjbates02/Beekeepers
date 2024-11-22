@@ -322,22 +322,6 @@ th, td {
     position: relative;
 }
 
-/* Increase hexagon size even more to fit more text */
-.hexagon {
-    width: 180px; /* Increased size */
-    height: 180px; /* Increased size */
-    background-color: #e0a800; /* Mustard yellow color */
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-    color: white;
-    font-weight: bold;
-    text-align: center;
-    padding: 10px; /* Added padding to allow more text space */
-}
-
 /* Optional: Adjust grid layout for bigger hexagons */
 .hexagon-container {
     display: flex;
@@ -362,6 +346,8 @@ th, td {
     width: 200px;
     height: 200px;
     background-color: #e0a800; /* Mustard yellow color */
+    background-color: #f0c040;
+    border: 2px solid #e5a731;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -390,4 +376,65 @@ th, td {
 .hexagon span {
     font-size: 14px;
     margin-top: 5px; /* Space between icon and text */
+}
+
+/* Hexagon Styling */
+.hexagon-container {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.hexagon {
+    width: 160px;
+    height: 200px;
+    background-color: #f4a460;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    color: white;
+    text-align: center;
+    padding: 10px;
+    font-weight: bold;
+}
+
+/* Icon Container */
+.icon-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.action-icon {
+    font-size: 20px;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.2s, color 0.2s;
+}
+
+.action-icon:hover {
+    color: #e0904c;
+    transform: scale(1.2);
+}
+
+/* Metrics Styling */
+.metrics {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.metrics strong {
+    font-size: 14px;
+    margin-bottom: 4px;
+}
+
+.metrics span {
+    font-size: 12px;
+    margin: 2px 0;
 }
