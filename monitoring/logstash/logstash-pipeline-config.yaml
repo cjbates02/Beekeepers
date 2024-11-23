@@ -1,4 +1,4 @@
-Pipeline: apiVersion: v1
+apiVersion: v1
 kind: ConfigMap
 metadata:
   name: logstash-config
@@ -179,12 +179,12 @@ data:
     output {
       if [log_type] == "cowrie" {
         elasticsearch {
-          hosts => ["http://elasticsearch:9200"]
+          hosts => ["http://elasticsearch.monitoring.svc.cluster.local:9200/"]
           index => "cowrie-logs-new-%{+YYYY.MM.dd}"
         }
       } else if [log_type] == "pfpot" {
         elasticsearch {
-          hosts => ["http://elasticsearch:9200"]
+          hosts => ["http://elasticsearch.monitoring.svc.cluster.local:9200/"]
           index => "pfpot-logs-new-%{+YYYY.MM.dd}"
         }
       }
