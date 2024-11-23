@@ -3,32 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="/static/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
     <title>Beekeepers</title>
-    <style>
-        .admin-button {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            padding: 8px 16px;
-            background-color: #ffffff; 
-            color: rgb(244, 164, 96);;
-            border: 1px solid rgb(250, 250, 250);;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 14px;
-        }
-        .admin-button:hover {
-            color: rgb(224, 144, 76); 
-            background-color: #ffffff; 
-            border-color: rgb(224, 144, 76); 
-            border-radius: 4px;
-            text-decoration: underline;
-        }
-        #cs-nav {
-            position: relative;
-        }
-    </style>
 </head>
 <body>
     <header id="cs-nav">
@@ -41,7 +18,7 @@
                 <li><a href="{{url_for('alerts')}}" target="_blank">ResultType</a></li>
             </ul>
         </nav>
-        <button class="admin-button" onclick="location.href='/create-account';">Admin</button>
+        <button class="admin-button">Admin</button>
     </header>
 
     <div class="background-container">
@@ -57,121 +34,39 @@
         </div>
     </div>
 
-    <script>
-        function changeLogURL(honeypot) {
-            window.location.href = `/logs/${honeypot}`;
-        }
-
-        // Define the log data
-        const logs = [
-            {
-                timestamp: "2024-11-05 01:14:31",
-                metric: "container_cpu_usage_seconds_total",
-                container: "app-container",
-                pod: "app-pod-1",
-                node: "node-1",
-                value: "0.053 seconds"
-            },
-            {
-                timestamp: "2024-11-05 01:14:31",
-                metric: "container_memory_usage_bytes",
-                container: "app-container",
-                pod: "app-pod-1",
-                node: "node-1",
-                value: "84.3 MB"
-            },
-            {
-                timestamp: "2024-11-05 01:14:31",
-                metric: "container_network_receive_bytes_total",
-                container: "app-container",
-                pod: "app-pod-1",
-                node: "node-1",
-                value: "1.9 MB"
-            },
-            {
-                timestamp: "2024-11-05 01:14:31",
-                metric: "container_network_transmit_bytes_total",
-                container: "app-container",
-                pod: "app-pod-1",
-                node: "node-1",
-                value: "987.7 KB"
-            },
-            {
-                timestamp: "2024-11-05 01:14:31",
-                metric: "container_cpu_usage_seconds_total",
-                container: "db-container",
-                pod: "db-pod-1",
-                node: "node-2",
-                value: "0.102 seconds"
-            },
-            {
-                timestamp: "2024-11-05 01:14:31",
-                metric: "container_memory_usage_bytes",
-                container: "db-container",
-                pod: "db-pod-1",
-                node: "node-2",
-                value: "173.4 MB"
-            },
-            {
-                timestamp: "2024-11-05 01:14:31",
-                metric: "container_network_receive_bytes_total",
-                container: "db-container",
-                pod: "db-pod-1",
-                node: "node-2",
-                value: "3.8 MB"
-            },
-            {
-                timestamp: "2024-11-05 01:14:31",
-                metric: "container_network_transmit_bytes_total",
-                container: "db-container",
-                pod: "db-pod-1",
-                node: "node-2",
-                value: "562.8 KB"
-            }
-        ];
-
-        // Function to populate the log table
-        function populateLogTable() {
-            const tableBody = document.getElementById('log-table-body');
-            
-            // Iterate over the logs array and add rows to the table
-            logs.forEach(log => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${log.timestamp}</td>
-                    <td>${log.metric}</td>
-                    <td>${log.container}</td>
-                    <td>${log.pod}</td>
-                    <td>${log.node}</td>
-                    <td>${log.value}</td>
-                `;
-                tableBody.appendChild(row);
-            });
-        }
-
-        // Call the function to populate the table when the page loads
-        window.onload = populateLogTable;
-    </script>
-
-    <!-- Table for Metrics Log Grid -->
-    <div class="log-grid-container">
-        <table>
-            <thead>
-                <tr>
-                    <th>Timestamp</th>
-                    <th>Metric</th>
-                    <th>Container</th>
-                    <th>Pod</th>
-                    <th>Node</th>
-                    <th>Value</th>
-                </tr>
-            </thead>
-            <tbody id="log-table-body">
-                <!-- Log entries will be dynamically inserted here -->
-            </tbody>
-        </table>
+    <div class="hexagon-container" id="metrics-container">
+        <!-- Hexagonal Metric Items will be injected here by JS -->
+  
+          <div class="hexagon">
+            <div class="icon-container">
+                <i class="fas fa-play action-icon" title="Start"></i>
+                <i class="fas fa-stop action-icon" title="Stop"></i>
+                <i class="fas fa-redo action-icon" title="Restart"></i>
+            </div>
+            <div class="metrics">
+                <strong>Cowrie</strong>
+                <span>CPU: 15%</span>
+                <span>Memory: 256 MB</span>
+                <span>Disk: 2 GB</span>
+                <span>Status: Active</span>
+            </div>
+        </div>
+        <div class="hexagon">
+            <div class="icon-container">
+                <i class="fas fa-play action-icon" title="Start"></i>
+                <i class="fas fa-stop action-icon" title="Stop"></i>
+                <i class="fas fa-redo action-icon" title="Restart"></i>
+            </div>
+            <div class="metrics">
+                 <strong>pfPot</strong>
+                <span>CPU: 10%</span>
+                <span>Memory: 128 MB</span>
+                <span>Disk: 1 GB</span>
+                <span>Status: Inactive</span>
+            </div>
+        </div>
     </div>
+
 </body>
 </html>
-
 

@@ -8,6 +8,7 @@ import mysql.connector
 from flask_httpauth import HTTPBasicAuth
 from werkzeug.security import generate_password_hash, check_password_hash
 from elasticsearch import Elasticsearch, ConnectionError, ConnectionTimeout
+from prometheus_api_client import PrometheusConnect
 
 app = Flask(__name__)
 app.secret_key = 'beekeepers'
@@ -115,3 +116,18 @@ def incoming_traffic():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+@app.route('/homepage')
+def home():
+    if check_authentication():
+        # Sample data to be replaced with real metrics from Prometheus or Elasticsearch
+        honeypots = [
+            {"name": "Honeypot 1", "metric": 85},
+            {"name": "Honeypot 2", "metric": 120},
+            {"name": "Honeypot 3", "metric": 60},
+            {"name": "Honeypot 4", "metric": 200},
+            {"name": "Honeypot 5", "metric": 45},
+        ]
+        return render_template('app.html', honeypots=honeypots)
+    flash('User not authenticated')
+    return redirect(url_for('login_page'))
