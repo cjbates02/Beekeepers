@@ -66,9 +66,13 @@ class PromClient:
                 self.processed_data[pod][metric_usage_percentage_name] = round(float(self.processed_data[pod][metric_usage]) / float(self.processed_data[pod][metric_limit]), 2) * 100
 
 
+    def main(self):
+        prom_client.process_all_queries()
+        prom_client.get_utilization_percentages()
+        return self.processed_data
+
 
 if __name__ == '__main__':
     prom_client = PromClient()
-    prom_client.process_all_queries()
-    prom_client.get_utilization_percentages()
+    prom_client.main()
     pprint(prom_client.processed_data)

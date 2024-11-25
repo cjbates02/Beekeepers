@@ -2,9 +2,6 @@
 from flask import Flask, render_template, jsonify, request, flash, redirect, url_for, session
 from core import user_db
 import uuid
-import json
-import os
-import mysql.connector
 from flask_httpauth import HTTPBasicAuth
 from werkzeug.security import generate_password_hash
 from elasticsearch import Elasticsearch, ConnectionError, ConnectionTimeout
@@ -14,7 +11,6 @@ app = Flask(__name__)
 app.secret_key = 'beekeepers'
 auth = HTTPBasicAuth()
 
-# Initialize Prometheus and Elasticsearch connections
 prom = PrometheusConnect(url="http://localhost:9090", disable_ssl=True)
 es = Elasticsearch(["http://10.0.10.14:9200"])
 
