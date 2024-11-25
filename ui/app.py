@@ -1,12 +1,12 @@
 ##TEST CONMBINATION##
 from flask import Flask, render_template, jsonify, request, flash, redirect, url_for, session
-from user_db import User
+from core import user_db
 import uuid
 import json
 import os
 import mysql.connector
 from flask_httpauth import HTTPBasicAuth
-from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.security import generate_password_hash
 from elasticsearch import Elasticsearch, ConnectionError, ConnectionTimeout
 from prometheus_api_client import PrometheusConnect
 
@@ -36,7 +36,7 @@ def login_page():
 def login():
     username = request.form.get('username')
     unhashed_password = request.form.get('password')
-    user = User(username, unhashed_password)
+    user = user_db.User(username, unhashed_password)
 
     if user.validate_credentials(username, unhashed_password):
         session['uid'] = uuid.uuid4()
