@@ -3,6 +3,8 @@ kind: PersistentVolumeClaim
 metadata:
   name: elasticsearch-pvc
   namespace: monitoring
+  labels:
+    app: elasticsearch
 spec:
   accessModes:
     - ReadWriteOnce
