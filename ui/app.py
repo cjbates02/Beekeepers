@@ -1,6 +1,6 @@
 ##TEST CONMBINATION##
 from flask import Flask, render_template, jsonify, request, flash, redirect, url_for, session
-from core import user_db
+from core import user_db, prom_client
 import uuid
 from flask_httpauth import HTTPBasicAuth
 from werkzeug.security import generate_password_hash
