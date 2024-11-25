@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+    <title>Beekeepers</title>
+</head>
+<body>
+    <header id="cs-nav">
+        <nav>
+            <h1 class="cs-header">Beekeepers</h1>
+            <ul>
+                <li><a href="{{url_for('incoming_traffic')}}" target="_blank">Data</a></li>
+                <li><a href="{{url_for('grafana')}}" target="_blank">Matris</a></li>
+                <li><a href="{{url_for('grafana')}}" target="_blank">Status</a></li>
+                <li><a href="{{url_for('alerts')}}" target="_blank">ResultType</a></li>
+            </ul>
+        </nav>
+        <button class="admin-button">Admin</button>
+    </header>
+
+    <div class="background-container">
+        <img id="background" src="/static/Honey comb.jpg" alt="Honeycomb Background">
+    </div>
+
+    <div class="grid-container">
+        <div class="honeypot-item">
+            <button class="honeypot-button" onclick="changeLogURL('cowrie')">Cowrie</button>
+        </div>
+        <div class="honeypot-item">
+            <button class="honeypot-button" onclick="changeLogURL('pfpot')">pfPot</button>
+        </div>
+    </div>
+
+    <div class="hexagon-container" id="metrics-container">
+        <!-- Hexagonal Metric Items will be injected here by JS -->
+  
+          <div class="hexagon">
+            <div class="icon-container">
+                <i class="fas fa-play action-icon" title="Start"></i>
+                <i class="fas fa-stop action-icon" title="Stop"></i>
+                <i class="fas fa-redo action-icon" title="Restart"></i>
+            </div>
+            <div class="metrics">
+                <strong>Cowrie</strong>
+                <span>CPU: 15%</span>
+                <span>Memory: 256 MB</span>
+                <span>Disk: 2 GB</span>
+                <span>Status: Active</span>
+            </div>
+        </div>
+        <div class="hexagon">
+            <div class="icon-container">
+                <i class="fas fa-play action-icon" title="Start"></i>
+                <i class="fas fa-stop action-icon" title="Stop"></i>
+                <i class="fas fa-redo action-icon" title="Restart"></i>
+            </div>
+            <div class="metrics">
+                 <strong>pfPot</strong>
+                <span>CPU: 10%</span>
+                <span>Memory: 128 MB</span>
+                <span>Disk: 1 GB</span>
+                <span>Status: Inactive</span>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
+
