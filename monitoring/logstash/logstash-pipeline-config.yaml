@@ -151,7 +151,7 @@ data:
       if "pfpot" in [tags] {
         grok {
           match => { 
-            "message" => "Time: %{TIMESTAMP_ISO8601:timestamp}, Username: %{USER:username}, Password: %{WORD:password}, IP: %{IP:ip_address}" 
+            "message" => "Time: %{TIMESTAMP_ISO8601:timestamp}, Username: %{USER:username}, Password: %{WORD:password}, IP: %{IPV4:ip_address}" 
           }
           overwrite => ["log_message"]
         }
@@ -159,6 +159,7 @@ data:
             source => "ip_address"
             target => "geoip"
           }
+          
         mutate {
           add_field => { "log_type" => "pfpot" }
         }
@@ -170,9 +171,9 @@ data:
           remove_field => ["timestamp"]
         }
       }
-      # Clean up fields
+      # Clean up fields common to both log types
       mutate {
-        remove_field => ["message_timestamp", "agent", "ecs", "host", "log", "input", "event", "tags", "@version"]
+        remove_field => ["message", "agent", "ecs", "host", "log", "input", "event", "tags", "@version", "_score"]
       }
     }
 

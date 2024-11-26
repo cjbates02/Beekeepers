@@ -198,7 +198,7 @@ data:
         #  hints.enabled: true
 
     output.elasticsearch:
-      hosts: ["http://elasticsearch.monitoring.svc.cluster.local:9200/"]
+      #hosts: ["http://elasticsearch.monitoring.svc.cluster.local:9200/"]
     setup.kibana:
       host: "kibana.monitoring.svc.cluster.local:5601"
     setup.dashboard.enabled: true
