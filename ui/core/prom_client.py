@@ -2,7 +2,6 @@ from dotenv import load_dotenv
 import os
 import json
 import requests
-from pprint import pprint
 
 load_dotenv()
 
@@ -43,8 +42,6 @@ class PromClient:
                                             'memory_usage_percentage': None}
             
             self.processed_data[pod][metric_name] = value
-        
-        pprint(self.processed_data)
     
     
     def process_all_queries(self):
@@ -67,12 +64,8 @@ class PromClient:
 
 
     def main(self):
-        prom_client.process_all_queries()
-        prom_client.get_utilization_percentages()
+        self.process_all_queries()
+        self.get_utilization_percentages()
         return self.processed_data
 
 
-if __name__ == '__main__':
-    prom_client = PromClient()
-    prom_client.main()
-    pprint(prom_client.processed_data)

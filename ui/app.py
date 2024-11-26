@@ -1,18 +1,33 @@
 ##TEST CONMBINATION##
 from flask import Flask, render_template, jsonify, request, flash, redirect, url_for, session
+from flask_socketio import SocketIO
 from core import user_db, prom_client
 import uuid
 from flask_httpauth import HTTPBasicAuth
 from werkzeug.security import generate_password_hash
 from elasticsearch import Elasticsearch, ConnectionError, ConnectionTimeout
-from prometheus_api_client import PrometheusConnect
+import logging
+import sys
+import time
+import queue
+import threading
+
+logger = logging.getLogger('FlaskLogger')
+out_hdlr = logging.StreamHandler(sys.stdout)
+out_hdlr.setFormatter(logging.Formatter('%(asctime)s %(message)s'))
+out_hdlr.setLevel(logging.INFO)
+logger.addHandler(out_hdlr)
+logger.setLevel(logging.INFO)
 
 app = Flask(__name__)
 app.secret_key = 'beekeepers'
 auth = HTTPBasicAuth()
+socket = SocketIO(app, cors_allowed_origins="*")
 
-prom = PrometheusConnect(url="http://localhost:9090", disable_ssl=True)
 es = Elasticsearch(["http://10.0.10.14:9200"])
+prom = prom_client.PromClient()
+
+prom_data_queue = queue.Queue()
 
 users = {
     "admin": generate_password_hash("secret"),
@@ -24,9 +39,46 @@ def check_authentication():
         return True
     return False
 
+
+def broadcast_prom_data():
+    while True:
+        if not prom_data_queue.empty():
+            broadcast_data = prom_data_queue.get()
+            socket.emit('prom_data', {'data': broadcast_data})
+            logger.info('Broadcasted data to all clients.')
+        time.sleep(15)
+
+
+def retrieve_prom_data():
+    while True:
+        data = prom.main()
+        prom_data_queue.put(data)
+        time.sleep(10)
+
+
+def does_thread_exist(thread_name):
+    if any(thread.name == thread_name for thread in threading.enumerate()):
+        return True
+    else:
+        return False
+
+
+@socket.on('connect')
+def handle_connect():
+    logger.info(f'Client has connected to socket with sid {request.sid}')
+    if not does_thread_exist('broadcast_prom_data'):
+        logger.info('Creating broadcast_prom_data thread.')
+        threading.Thread(target=broadcast_prom_data, name="broadcast_prom_data", daemon=True).start()
+        
+    if not does_thread_exist('retrieve_prom_data'):
+        logger.info('Creating retrieve_prom_data thread.')
+        threading.Thread(target=retrieve_prom_data, name="retrieve_prom_data", daemon=True).start()
+
+
 @app.route('/')  # Starts at Login Page
 def login_page():
     return render_template('Loginpage.html')
+
 
 @app.route('/login', methods=['POST'])
 def login():
@@ -41,7 +93,8 @@ def login():
     else:
         flash('Invalid username or password. Please try again.')
         return redirect(url_for('login_page'))
-    
+
+
 @app.route('/create-account')
 def create():
     if check_authentication():
@@ -49,12 +102,13 @@ def create():
     flash('User not authenticated')
     return redirect(url_for('login_page'))
 
-@app.route('/homepage')
-def home():
-    if check_authentication():
-        return render_template('app.html')
-    flash('User not authenticated')
-    return redirect(url_for('login_page'))
+
+# @app.route('/homepage')
+# def home():
+#     if check_authentication():
+#         return render_template('app.html')
+#     flash('User not authenticated')
+#     return redirect(url_for('login_page'))
     
 
 
@@ -77,8 +131,6 @@ def logs(honeypot):
             return render_template('logs.html', honeypot=honeypot, logs=formatted_logs, headers=headers)
         flash('User not authenticated')
         return redirect(url_for('login_page'))
-        
-        
     except ConnectionError:
         print("Fail to connect to Elasticsearch")
         return "Fail to connect to Elasticsearch"
@@ -86,7 +138,6 @@ def logs(honeypot):
         print("Fail to connect to Elasticsearch")
         return "Fail to connect to Elasticsearch"
     
-
 
 @app.route('/alerts')
 def alerts():
@@ -110,9 +161,6 @@ def incoming_traffic():
     return redirect(url_for('login_page'))
 
 
-if __name__ == '__main__':
-    app.run(debug=True)
-
 @app.route('/homepage')
 def home():
     if check_authentication():
@@ -127,3 +175,8 @@ def home():
         return render_template('app.html', honeypots=honeypots)
     flash('User not authenticated')
     return redirect(url_for('login_page'))
+
+
+if __name__ == '__main__':
+    socket.run(app, host='0.0.0.0', port=5050)
+    

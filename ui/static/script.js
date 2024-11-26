@@ -16,4 +16,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
         container.appendChild(hexagon);
     });
+
+    websocket = io('http://127.0.0.1:5050');
+
+    websocket.on('connect', () => {
+        console.log('Connected to flask socket io server.');
+    });
+
+    websocket.on('prom_data', (data) => { 
+        const metricData = data.data;
+        console.log(metricData)
+        // call function to populate pod metric data here
+    });
 });
