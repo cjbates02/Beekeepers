@@ -63,16 +63,19 @@ def does_thread_exist(thread_name):
         return False
 
 
+def start_thread(target, name):
+    logger.info(f'Creating {name} thread.')
+    threading.Thread(target=target, name=name, daemon=True).start()
+
+
 @socket.on('connect')
 def handle_connect():
     logger.info(f'Client has connected to socket with sid {request.sid}')
     if not does_thread_exist('broadcast_prom_data'):
-        logger.info('Creating broadcast_prom_data thread.')
-        threading.Thread(target=broadcast_prom_data, name="broadcast_prom_data", daemon=True).start()
+        start_thread(broadcast_prom_data, 'broadcast_prom_data')
         
     if not does_thread_exist('retrieve_prom_data'):
-        logger.info('Creating retrieve_prom_data thread.')
-        threading.Thread(target=retrieve_prom_data, name="retrieve_prom_data", daemon=True).start()
+        start_thread(retrieve_prom_data, 'retrieve_prom_data')
 
 
 @app.route('/')  # Starts at Login Page

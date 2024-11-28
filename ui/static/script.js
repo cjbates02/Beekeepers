@@ -1,21 +1,21 @@
 document.addEventListener("DOMContentLoaded", () => {
     const container = document.getElementById("hexagon-container");
 
-    honeypots.forEach(honeyPot => {
-        const hexagon = document.createElement("div");
-        hexagon.className = "hexagon";
-        hexagon.innerHTML = `
-            <div>${honeyPot.name}</div>
-            <div>${honeyPot.metric} requests</div>
-        `;
+    // honeypots.forEach(honeyPot => {
+    //     const hexagon = document.createElement("div");
+    //     hexagon.className = "hexagon";
+    //     hexagon.innerHTML = `
+    //         <div>${honeyPot.name}</div>
+    //         <div>${honeyPot.metric} requests</div>
+    //     `;
 
-        // Add click interaction for future use
-        hexagon.addEventListener("click", () => {
-            alert(`Viewing details for ${honeyPot.name}`);
-        });
+    //     // Add click interaction for future use
+    //     hexagon.addEventListener("click", () => {
+    //         alert(`Viewing details for ${honeyPot.name}`);
+    //     });
 
-        container.appendChild(hexagon);
-    });
+    //     container.appendChild(hexagon);
+    // });
 
     websocket = io('http://127.0.0.1:5050');
 
@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     websocket.on('prom_data', (data) => { 
         const metricData = data.data;
-        console.log(metricData)
+        console.log(metricData);
         // call function to populate pod metric data here
     });
 });
