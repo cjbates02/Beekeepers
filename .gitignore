@@ -13,3 +13,6 @@ packet-analysis-tool/temp
 packet-analysis-tool/testing/__pycache__
 packet-analysis-tool/testing/.pytest_cache
 ui/.env
+ui/core/__pycache__
+
+packet-analysis-tool/.env

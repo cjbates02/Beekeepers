@@ -129,16 +129,15 @@ def logs(honeypot):
         logs_data = response['hits']['hits'][::-1]
         formatted_logs = [log['_source'] for log in logs_data]
         headers = formatted_logs[0].keys()
-        print(headers)
         if check_authentication():
             return render_template('logs.html', honeypot=honeypot, logs=formatted_logs, headers=headers)
         flash('User not authenticated')
         return redirect(url_for('login_page'))
     except ConnectionError:
-        print("Fail to connect to Elasticsearch")
+        logger.error("Fail to connect to Elasticsearch")
         return "Fail to connect to Elasticsearch"
     except ConnectionTimeout:
-        print("Fail to connect to Elasticsearch")
+        logger.error("Fail to connect to Elasticsearch")
         return "Fail to connect to Elasticsearch"
     
 
