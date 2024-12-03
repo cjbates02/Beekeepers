@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const container = document.getElementById("hexagon-container");
+    const container = document.getElementById('hexagon-container');
 
     // honeypots.forEach(honeyPot => {
     //     const hexagon = document.createElement("div");

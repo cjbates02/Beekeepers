@@ -7,6 +7,7 @@ git-commands.txt
 test_data.json
 ui/__pycache__
 ui/venv
+ui/.venv
 secrets/
 ui/.env
 ui/core/__pycache__
@@ -18,4 +19,6 @@ packet-analysis-tool/core/__pycache__/
 packet-analysis-tool/packet_cache/
 
 packet-analysis-tool/.env
+packet-analysis-tool/.venv
+ui/core/__pycache__
 

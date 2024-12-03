@@ -60,7 +60,6 @@ document.addEventListener("DOMContentLoaded", () => {
         dataFeedStateContainer.appendChild(dataFeedStateIcon);
     }
 
-
     function getIconPath(iconName) {
         return `${iconDirectory}${iconName}.svg`;
     }
