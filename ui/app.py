@@ -8,6 +8,7 @@ import mysql.connector
 from flask_httpauth import HTTPBasicAuth
 from werkzeug.security import generate_password_hash, check_password_hash
 from elasticsearch import Elasticsearch, ConnectionError, ConnectionTimeout
+from prometheus_api_client import PrometheusConnect
 
 app = Flask(__name__)
 app.secret_key = 'beekeepers'
@@ -23,8 +24,10 @@ users = {
 }
 
 def check_authentication():
+    session.pop('_flashes', None)
     if session.get('uid', None):
         return True
+    flash('User not authenticated')
     return False
 
 @app.route('/')  # Starts at Login Page
@@ -39,6 +42,7 @@ def login():
 
     if user.validate_credentials(username, unhashed_password):
         session['uid'] = uuid.uuid4()
+        session['username'] = username
         # If valid, redirect to the homepage
         return redirect(url_for('home'))
     else:
@@ -48,15 +52,17 @@ def login():
 @app.route('/create-account')
 def create():
     if check_authentication():
-        return render_template('createacc.html')
-    flash('User not authenticated')
+        if session['username'] == 'admin':
+            return render_template('createacc.html')
+        flash('User does not have permssion for this page')
+        return redirect(url_for('home'))
     return redirect(url_for('login_page'))
+
 
 @app.route('/homepage')
 def home():
     if check_authentication():
         return render_template('app.html')
-    flash('User not authenticated')
     return redirect(url_for('login_page'))
     
 
@@ -78,7 +84,6 @@ def logs(honeypot):
         print(headers)
         if check_authentication():
             return render_template('logs.html', honeypot=honeypot, logs=formatted_logs, headers=headers)
-        flash('User not authenticated')
         return redirect(url_for('login_page'))
         
         
@@ -95,23 +100,21 @@ def logs(honeypot):
 def alerts():
     if check_authentication():
         return render_template('alerts.html')
-    flash('User not authenticated')
     return redirect(url_for('login_page'))
 
 @app.route('/status')
 def grafana():
     if check_authentication():
         return render_template('status.html')
-    flash('User not authenticated')
     return redirect(url_for('login_page'))
 
 @app.route('/incoming-traffic')
 def incoming_traffic():
     if check_authentication():
         return render_template('incoming-traffic.html')
-    flash('User not authenticated')
     return redirect(url_for('login_page'))
 
 
 if __name__ == '__main__':
+    session = {}
     app.run(debug=True)

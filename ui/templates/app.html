@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="/static/style.css">
+    <link rel="stylesheet" type="text/css" href="/static/styles/style.css">
     <title>Beekeepers</title>
     <style>
         .admin-button {
@@ -42,6 +42,15 @@
             </ul>
         </nav>
         <button class="admin-button" onclick="location.href='/create-account';">Admin</button>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for message in messages %}
+                        <p>{{ message }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
     </header>
 
     <div class="background-container">
