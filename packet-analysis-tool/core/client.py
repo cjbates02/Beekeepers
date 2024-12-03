@@ -15,6 +15,7 @@ import sys
 # Export payload of a packet into pcap file
 # Export raw ip address data
 # Retention policy (24 hours by default)
+# Pause sniffer
 
 class PacketSnifferClient:
     def __init__(self, host, port, logger):

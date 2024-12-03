@@ -48,6 +48,11 @@ def start_thread(target, name):
         threading.Thread(target=target, name=name, daemon=True).start()
 
 
+# def add_packet_to_cache(packet):
+#     with Cache(packet_cache.directory) as reference:
+#         reference.set('', 'value')
+
+
 @socket_io.on('connect')
 def handle_socket_connect():
     logger.info(f'Client has connected to socket with sid {request.sid}')
@@ -60,6 +65,6 @@ def index():
     return render_template('index.html')
 
 if __name__ == '__main__':
-    socket_io.run(app)
+    socket_io.run(app, debug=True)
 
     
