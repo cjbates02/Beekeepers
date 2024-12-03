@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+ Tech Startup Project: Beekeepers
+
+https://drive.google.com/drive/folders/1GbiOosbB_9vXJZrTG6XXQaHW68Ce4Foy?usp=drive_link
+=======
 # Beekeepers
 ## Overview:
 A microservices oriented approach to hosting and monitoring a variety of honeypots. These honeypots are hosted on a kubernetes cluster in pods using docker engine for the container runtime interface. The logs for each honeypots are continously monitored such that the logs are sent to an ELK stack that is also deployed on the same cluster. Additionally, there is a packet sniffer listening on the interface of the node hosting the honeypots where packet analysis is performed. There is also a custom web ui that is designed to provide a birds eye view of the entire applications, allowing users to drill into each honeypot and see recent activity, state, and a record of logs without having to using the kube api directly. Currently we are using two honeypots, one is an open source ssh honeypot called cowrie, and the other is a fake pf sense log in screen. 
@@ -25,4 +30,5 @@ The system is deployed on site in a kubernetes cluster with two nodes. The first
 
 
 
+>>>>>>> 1543cd920c6825ef64458a5279468189d396d92b
 

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title></title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="../static/styles/main.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&display=swap" rel="stylesheet" />
+    <script src="https://cdn.socket.io/4.6.1/socket.io.min.js" defer></script>
+    <script src="../static/scripts/main.js" defer></script>
+    <script src="../static/scripts/constants.js" defer></script>
+  </head>
+  <body>
+    <div class="main-container" id="main-container">
+      <div class="header">
+        <div class="header-title">Packet Sniffer</div>
+        <div class="data-feed-state-container" id="data-feed-state-container"></div>
+      </div>
+      <div class="data-feed-container">
+        <div class="data-feed-header">
+          <div class="source-ip-title">Source IP</div>
+          <div class="dest-ip-title">Destination IP</div>
+          <div class="source-port-title">Source Port</div>
+          <div class="dest-port-title">Destination Port</div>
+        </div>
+        <div class="data-feed-body" id="data-feed-body">
+      </div>
+      </div>
+    </div>
+  </body>
+</html>

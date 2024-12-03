@@ -10,9 +10,7 @@ data:
         port => 5044
       }
     }
-
     filter {
-      # Parse Cowrie logs
       if "cowrie" in [tags] {
         # Main Grok pattern for parsing log timestamp, cowrie_component, and log_message
         grok {
@@ -22,7 +20,48 @@ data:
           overwrite => ["log_message"]
         }
 
-        # Additional parsing of cowrie_component structure if matched
+        # If cowrie_component is not parsed, capture everything after 'stdout F' as log_message
+        if ![cowrie_component] {
+          grok {
+            match => {
+              "message" => "%{TIMESTAMP_ISO8601:log_timestamp} stdout F\s*%{GREEDYDATA:log_message}"
+            }
+            overwrite => ["log_message"]
+          }
+        }
+
+        # Extract IP from cowrie_component if present
+        if [cowrie_component] =~ /\d+\.\d+\.\d+\.\d+/ {
+          grok {
+            match => { "cowrie_component" => "(?<cowrie_ip>\d+\.\d+\.\d+\.\d+)" }
+            add_tag => ["parsed_cowrie_ip"]
+          }
+        }
+
+        # Determine primary_ip for GeoIP enrichment
+        if [remote_ip] and [cowrie_ip] {
+          mutate {
+            add_field => { "primary_ip" => "%{remote_ip}" }
+          }
+        } else if [cowrie_ip] {
+          mutate {
+            add_field => { "primary_ip" => "%{cowrie_ip}" }
+          }
+        } else if [remote_ip] {
+          mutate {
+            add_field => { "primary_ip" => "%{remote_ip}" }
+          }
+        }
+
+        # GeoIP enrichment for primary_ip
+        if [primary_ip] {
+          geoip {
+            source => "primary_ip"
+            target => "geoip"
+          }
+        }
+
+        # Additional parsing of cowrie_component structure
         if [cowrie_component] =~ /^[a-zA-Z]+\.[a-zA-Z]+\.[a-zA-Z]+#[a-zA-Z]+$/ {
           grok {
             match => {
@@ -32,7 +71,7 @@ data:
           }
         }
 
-        # Specific log_message patterns for further parsing
+        # Handle specific patterns in log_message
         if [log_message] =~ /New connection:/ {
           grok {
             match => {
@@ -40,13 +79,10 @@ data:
             }
             overwrite => ["log_message"]
           }
-
-          # GeoIP enrichment for remote_ip
           geoip {
             source => "remote_ip"
             target => "geoip"
           }
-
         } else if [log_message] =~ /login attempt/ {
           grok {
             match => {
@@ -54,7 +90,6 @@ data:
             }
             overwrite => ["log_message"]
           }
-
         } else if [log_message] =~ /SSH client hassh fingerprint:/ {
           grok {
             match => {
@@ -62,7 +97,6 @@ data:
             }
             overwrite => ["log_message"]
           }
-
         } else if [log_message] =~ /kex alg=/ {
           grok {
             match => {
@@ -70,37 +104,36 @@ data:
             }
             overwrite => ["log_message"]
           }
-
         } else if [log_message] =~ /Executing command/ {
           grok {
             match => {
-              "log_message" => "Executing command \"b'(?<command>[^']+)'\""
+              "log_message" => "Executing command \"%{GREEDYDATA:command}\""
             }
             overwrite => ["log_message"]
           }
-
         } else if [log_message] =~ /CMD:/ {
           grok {
             match => {
-              "log_message" => "CMD: %{GREEDYDATA:cmd}"
+              "log_message" => "CMD: %{GREEDYDATA:command}"
             }
             overwrite => ["log_message"]
           }
-
-        } else if [cowrie_component] =~ /HoneyPotSSHTransport#info/ and [log_message] =~ /connection lost/ {
+        } else if [log_message] =~ /Command found/ {
           grok {
-            match => { "log_message" => "connection lost" }
+            match => {
+              "log_message" => "Command found: \"%{GREEDYDATA:command}\""
+            }
+            overwrite => ["log_message"]
           }
-
-        } # Generic fallback pattern if no specific pattern matches
+        }
         else {
           grok {
             match => { "log_message" => "%{GREEDYDATA:log_message}" }
             overwrite => ["log_message"]
           }
-        }
+        } 
 
-        # Remove `b' '` wrappers specifically from log_message if present
+        # Remove unnecessary b' wrappers
         mutate {
           gsub => [
             "log_message", "b'([^']*)'", "\1",
@@ -109,21 +142,24 @@ data:
             "key_alg", "b'([^']*)'", "\1"
           ]
         }
-
         mutate {
           add_field => { "log_type" => "cowrie" }
         }
       }
-
+      
       # Parse pfpot logs
       if "pfpot" in [tags] {
         grok {
           match => { 
-            "message" => "Time: %{TIMESTAMP_ISO8601:timestamp}, Username: %{USER:username}, Password: %{WORD:password}, IP: %{IP:ip_address}" 
+            "message" => "Time: %{TIMESTAMP_ISO8601:timestamp}, Username: %{USER:username}, Password: %{WORD:password}, IP: %{IPV4:ip_address}" 
           }
           overwrite => ["log_message"]
         }
-        
+        geoip {
+            source => "ip_address"
+            target => "geoip"
+          }
+          
         mutate {
           add_field => { "log_type" => "pfpot" }
         }
@@ -135,26 +171,23 @@ data:
           remove_field => ["timestamp"]
         }
       }
-
       # Clean up fields common to both log types
       mutate {
-        remove_field => ["message_timestamp", "agent", "ecs", "host", "log", "input", "event", "tags", "@version"]
+        remove_field => ["message", "agent", "ecs", "host", "log", "input", "event", "tags", "@version", "_score"]
       }
     }
 
     output {
-      # Separate indices based on log type
       if [log_type] == "cowrie" {
         elasticsearch {
-          hosts => ["http://elasticsearch:9200"]
+          hosts => ["http://elasticsearch.monitoring.svc.cluster.local:9200/"]
           index => "cowrie-logs-new-%{+YYYY.MM.dd}"
         }
-      }
-      else if [log_type] == "pfpot" {
+      } else if [log_type] == "pfpot" {
         elasticsearch {
-          hosts => ["http://elasticsearch:9200"]
+          hosts => ["http://elasticsearch.monitoring.svc.cluster.local:9200/"]
           index => "pfpot-logs-new-%{+YYYY.MM.dd}"
         }
       }
-      stdout { codec => rubydebug }  # For debugging
+      stdout { codec => rubydebug }
     }

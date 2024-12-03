@@ -18,6 +18,7 @@ spec:
     spec:
       nodeSelector:
         role: worker
+      hostNetwork: true
       containers:
       - name: pfsense-honeypot
         image: cjbates02/pfsense-honeypot

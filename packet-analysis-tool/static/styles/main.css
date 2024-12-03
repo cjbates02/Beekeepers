@@ -1,0 +1,100 @@
+body {
+    background-color: black;
+    padding: 0px;
+    margin: 0px;
+    font-family: 'Outfit';
+    color: white;
+    overflow: hidden;
+}
+
+.data-feed-container {
+    height: 95%;
+    width: 95%;
+    margin: auto;
+    margin-top: 10px;
+}
+
+.data-feed-body {
+    background-color: #111;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    padding-left: 10px;
+    padding-top: 5px;
+}
+
+.data-feed-header {
+    display: flex;
+    width: 100%;
+    padding-left: 10px;
+}
+
+.data-feed-row {
+    display: flex;
+}
+
+.data-feed-row:hover {
+    background-color: #444;
+}
+
+.main-container {
+    height: 100vh;
+    width: 100vw;
+}
+
+.header {
+    height: 25px;
+    padding: 15px;
+    display: flex;
+}
+
+.header-title {
+    font-size: 22px;
+    padding-right: 5px;
+}
+
+.source-ip-title {
+    width: 25%;
+}
+
+.dest-ip-title {
+    width: 25%;
+}
+
+.source-port-title {
+    width: 10%;
+}
+
+.dest-port-title {
+    width: 10%;
+}
+
+.source-ip {
+    width: 25%;
+}
+
+.dest-ip {
+    width: 25%;
+}
+
+.source-port {
+    width: 10%;
+}
+
+.dest-port {
+    width: 10%;
+}
+
+.icon {
+    height: 25px;
+    width: 25px;
+    filter: invert(1) brightness(100%);
+}
+
+.icon:hover {
+    background-color: #999;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+

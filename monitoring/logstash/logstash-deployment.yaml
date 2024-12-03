@@ -25,10 +25,6 @@ spec:
       containers:
       - name: logstash
         image: docker.elastic.co/logstash/logstash:8.5.0 # Use the appropriate version
-        lifecycle:
-            postStart:
-              exec:
-                command: ["curl", "http://10.0.10.16:5000/geolite2 ", "-o", "/usr/share/logstash/GeoLite2-City.mmdb"]
         volumeMounts:
         - name: logstash-pipeline
           mountPath: /usr/share/logstash/pipeline/logstash.conf
@@ -54,6 +50,3 @@ spec:
       - name: logstash-pipeline
         configMap:
           name: logstash-config
-      # - name: geolite2-volume
-      #   persistentVolumeClaim:
-      #     claimName: geolite2-pvc

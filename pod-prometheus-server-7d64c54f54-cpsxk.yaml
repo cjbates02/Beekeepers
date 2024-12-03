@@ -1,0 +1,252 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    cni.projectcalico.org/containerID: 9ebedf51203e4e83b486e14876aac2ab507d92613ac51cacc5902a4e9a08abb9
+    cni.projectcalico.org/podIP: 192.168.0.129/32
+    cni.projectcalico.org/podIPs: 192.168.0.129/32
+  creationTimestamp: "2024-11-07T18:01:12Z"
+  generateName: prometheus-server-7d64c54f54-
+  labels:
+    app.kubernetes.io/component: server
+    app.kubernetes.io/instance: prometheus
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: prometheus
+    app.kubernetes.io/part-of: prometheus
+    app.kubernetes.io/version: v2.55.0
+    helm.sh/chart: prometheus-25.28.0
+    pod-template-hash: 7d64c54f54
+  name: prometheus-server-7d64c54f54-cpsxk
+  namespace: monitoring
+  ownerReferences:
+  - apiVersion: apps/v1
+    blockOwnerDeletion: true
+    controller: true
+    kind: ReplicaSet
+    name: prometheus-server-7d64c54f54
+    uid: eec0bf57-9e07-40de-a05c-2140a3cd5bec
+  resourceVersion: "7625793"
+  uid: 3caee624-af9d-4962-ab12-877de83d254d
+spec:
+  containers:
+  - args:
+    - --watched-dir=/etc/config
+    - --listen-address=0.0.0.0:8080
+    - --reload-url=http://127.0.0.1:9090/-/reload
+    image: quay.io/prometheus-operator/prometheus-config-reloader:v0.77.2
+    imagePullPolicy: IfNotPresent
+    livenessProbe:
+      failureThreshold: 3
+      httpGet:
+        path: /healthz
+        port: metrics
+        scheme: HTTP
+      initialDelaySeconds: 2
+      periodSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 1
+    name: prometheus-server-configmap-reload
+    ports:
+    - containerPort: 8080
+      name: metrics
+      protocol: TCP
+    readinessProbe:
+      failureThreshold: 3
+      httpGet:
+        path: /healthz
+        port: metrics
+        scheme: HTTP
+      periodSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 1
+  resources:
+    requests:
+      limits: 
+        memory: "64Mi"
+        cpu: "500m"
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /etc/config
+      name: config-volume
+      readOnly: true
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-dbttr
+      readOnly: true
+  - args:
+    - --storage.tsdb.retention.time=15d
+    - --config.file=/etc/config/prometheus.yml
+    - --storage.tsdb.path=/data
+    - --web.console.libraries=/etc/prometheus/console_libraries
+    - --web.console.templates=/etc/prometheus/consoles
+    - --web.enable-lifecycle
+    image: quay.io/prometheus/prometheus:v2.55.0
+    imagePullPolicy: IfNotPresent
+    livenessProbe:
+      failureThreshold: 3
+      httpGet:
+        path: /-/healthy
+        port: 9090
+        scheme: HTTP
+      initialDelaySeconds: 30
+      periodSeconds: 15
+      successThreshold: 1
+      timeoutSeconds: 10
+    name: prometheus-server
+    ports:
+    - containerPort: 9090
+      protocol: TCP
+    readinessProbe:
+      failureThreshold: 3
+      httpGet:
+        path: /-/ready
+        port: 9090
+        scheme: HTTP
+      initialDelaySeconds: 30
+      periodSeconds: 5
+      successThreshold: 1
+      timeoutSeconds: 4
+    resources: {}
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /etc/config
+      name: config-volume
+    - mountPath: /data
+      name: storage-volume
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-dbttr
+      readOnly: true
+  dnsPolicy: ClusterFirst
+  enableServiceLinks: true
+  nodeName: queenbee
+  preemptionPolicy: PreemptLowerPriority
+  priority: 0
+  restartPolicy: Always
+  schedulerName: default-scheduler
+  securityContext:
+    fsGroup: 65534
+    runAsGroup: 65534
+    runAsNonRoot: true
+    runAsUser: 65534
+  serviceAccount: prometheus-server
+  serviceAccountName: prometheus-server
+  terminationGracePeriodSeconds: 300
+  tolerations:
+  - effect: NoExecute
+    key: node.kubernetes.io/not-ready
+    operator: Exists
+    tolerationSeconds: 300
+  - effect: NoExecute
+    key: node.kubernetes.io/unreachable
+    operator: Exists
+    tolerationSeconds: 300
+  volumes:
+  - configMap:
+      defaultMode: 420
+      name: prometheus-server
+    name: config-volume
+  - name: storage-volume
+    persistentVolumeClaim:
+      claimName: prometheus-server
+  - name: kube-api-access-dbttr
+    projected:
+      defaultMode: 420
+      sources:
+      - serviceAccountToken:
+          expirationSeconds: 3607
+          path: token
+      - configMap:
+          items:
+          - key: ca.crt
+            path: ca.crt
+          name: kube-root-ca.crt
+      - downwardAPI:
+          items:
+          - fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+            path: namespace
+status:
+  conditions:
+  - lastProbeTime: null
+    lastTransitionTime: "2024-11-07T18:01:13Z"
+    status: "True"
+    type: PodReadyToStartContainers
+  - lastProbeTime: null
+    lastTransitionTime: "2024-11-07T18:01:12Z"
+    status: "True"
+    type: Initialized
+  - lastProbeTime: null
+    lastTransitionTime: "2024-11-07T18:01:12Z"
+    message: 'containers with unready status: [prometheus-server]'
+    reason: ContainersNotReady
+    status: "False"
+    type: Ready
+  - lastProbeTime: null
+    lastTransitionTime: "2024-11-07T18:01:12Z"
+    message: 'containers with unready status: [prometheus-server]'
+    reason: ContainersNotReady
+    status: "False"
+    type: ContainersReady
+  - lastProbeTime: null
+    lastTransitionTime: "2024-11-07T18:01:12Z"
+    status: "True"
+    type: PodScheduled
+  containerStatuses:
+  - containerID: containerd://fc50756c73f0622d64398cfc4de90041787e027c30c3c5971a5b209809a81e8b
+    image: quay.io/prometheus/prometheus:v2.55.0
+    imageID: quay.io/prometheus/prometheus@sha256:378f4e03703557d1c6419e6caccf922f96e6d88a530f7431d66a4c4f4b1000fe
+    lastState:
+      terminated:
+        containerID: containerd://fc50756c73f0622d64398cfc4de90041787e027c30c3c5971a5b209809a81e8b
+        exitCode: 2
+        finishedAt: "2024-11-07T18:22:17Z"
+        reason: Error
+        startedAt: "2024-11-07T18:22:17Z"
+    name: prometheus-server
+    ready: false
+    restartCount: 9
+    started: false
+    state:
+      waiting:
+        message: back-off 5m0s restarting failed container=prometheus-server pod=prometheus-server-7d64c54f54-cpsxk_monitoring(3caee624-af9d-4962-ab12-877de83d254d)
+        reason: CrashLoopBackOff
+    volumeMounts:
+    - mountPath: /etc/config
+      name: config-volume
+    - mountPath: /data
+      name: storage-volume
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-dbttr
+      readOnly: true
+      recursiveReadOnly: Disabled
+  - containerID: containerd://420733d1166598a714fe2ed0f4a3d78b78cc6b68b6a0f7cd5b8d84aafdced4d4
+    image: quay.io/prometheus-operator/prometheus-config-reloader:v0.77.2
+    imageID: quay.io/prometheus-operator/prometheus-config-reloader@sha256:c96d4fb1d57f4e7a6504d8da7d1ee9254018039939842bf65e86563b66e5a14f
+    lastState: {}
+    name: prometheus-server-configmap-reload
+    ready: true
+    restartCount: 0
+    started: true
+    state:
+      running:
+        startedAt: "2024-11-07T18:01:13Z"
+    volumeMounts:
+    - mountPath: /etc/config
+      name: config-volume
+      readOnly: true
+      recursiveReadOnly: Disabled
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-dbttr
+      readOnly: true
+      recursiveReadOnly: Disabled
+  hostIP: 10.0.10.100
+  hostIPs:
+  - ip: 10.0.10.100
+  phase: Running
+  podIP: 192.168.0.129
+  podIPs:
+  - ip: 192.168.0.129
+  qosClass: BestEffort
+  startTime: "2024-11-07T18:01:12Z"
