@@ -101,13 +101,20 @@ def login():
         return redirect(url_for('login_page'))
 
 
-@app.route('/create-account')
+@app.route('/create-account', methods=['GET', 'POST'])
 def create():
     if check_authentication():
+        if request.method == 'POST':
+            username = request.form['username']
+            password = request.form['password']
+            user = user_db.User(username, password)
+            user.create_user()
+            return redirect(url_for('home'))
         if session['username'] == 'admin':
             return render_template('createacc.html')
+        
         flash('User does not have permssion for this page')
-        return redirect(url_for('home'))
+
     return redirect(url_for('login_page'))
 
 
@@ -165,7 +172,7 @@ def incoming_traffic():
     return redirect(url_for('login_page'))
 
 
-@app.route('/homepage')
+@app.route('/homepage', methods=['GET', 'POST'])
 def home():
     if check_authentication():
         # Sample data to be replaced with real metrics from Prometheus or Elasticsearch
