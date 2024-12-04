@@ -14,10 +14,9 @@
         <nav>
             <h1 class="cs-header">Beekeepers</h1>
             <ul>
-                <li><a href="{{url_for('incoming_traffic')}}" target="_blank">Data</a></li>
-                <li><a href="{{url_for('grafana')}}" target="_blank">Matris</a></li>
-                <li><a href="{{url_for('grafana')}}" target="_blank">Status</a></li>
-                <li><a href="{{url_for('alerts')}}" target="_blank">ResultType</a></li>
+                <li><a href="http://10.0.97.136:9090/graph?g0.expr=&g0.tab=1&g0.stacked=0&g0.show_exemplars=0&g0.range_input=1h" target="_blank">Prometheus</a></li>
+                <li><a href="{{ url_for('grafana') }}" target="_blank">Packet Sniffer</a></li>
+                <li><a href="http://10.0.97.136:30001/app/home#/" target="_blank">Elastic</a></li>
             </ul>
         </nav>
         <a href="{{ url_for('create') }}"><button class="admin-button">Admin</button></a>
@@ -39,7 +38,6 @@
     <div class="hexagon-container" id="metrics-container">
         <!-- Hexagonal Metric Items will be injected here by JS -->
     </div>
-
 </body>
 </html>
 

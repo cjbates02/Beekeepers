@@ -26,17 +26,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     <p>Memory: ${pod.memory_usage_percentage}% / ${pod.memory_limit}</p>
                     <p>Status: ${pod.status}</p>
                 </div>
-                <div class="hex-buttons">
-                    <button class="action-button start" onclick="handleAction('${key}', 'start')">
-                        <i class="fas fa-play"></i>
-                    </button>
-                    <button class="action-button stop" onclick="handleAction('${key}', 'stop')">
-                        <i class="fas fa-stop"></i>
-                    </button>
-                    <button class="action-button restart" onclick="handleAction('${key}', 'restart')">
-                        <i class="fas fa-sync"></i>
-                    </button>
-                </div>
             `;
 
             container.appendChild(hexagon);
