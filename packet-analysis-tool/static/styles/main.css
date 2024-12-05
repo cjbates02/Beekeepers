@@ -22,13 +22,13 @@ body {
     padding-left: 10px;
     padding-top: 5px;
     scrollbar-width: thin;
-    scrollbar-gutter: stable;!i;!;
+    scrollbar-gutter: stable;
 }
 
 .data-feed-header {
     display: flex;
     width: 100%;
-    padding-left: 10px;
+    padding-left: 36px;
     scrollbar-width: thin;
     scrollbar-gutter: stable;
     overflow-y: auto;
@@ -94,6 +94,7 @@ body {
     height: 25px;
     width: 25px;
     filter: invert(1) brightness(100%);
+    margin-right: 5px;
 }
 
 .icon:hover {
@@ -102,4 +103,7 @@ body {
     cursor: pointer;
 }
 
+.checkbox {
+    margin-right: 10px;
+}
 

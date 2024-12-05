@@ -2,7 +2,8 @@ import logging
 import sys
 import threading
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, send_file
+from flask_cors import CORS
 from flask_socketio import SocketIO
 from core import client
 from diskcache import Cache
@@ -24,15 +25,16 @@ packet_cache = Cache('packet_cache')
 
 socat_client = client.PacketSnifferClient(SOCAT_HOST, SOCAT_PORT, logger)
 
-app = Flask(__name__)
+app = Flask(__name__ )
+CORS(app)
 socket_io = SocketIO(app, cors_allowed_origins="*")
 
 
 def broadcast_packet_data():
     packet_generator = socat_client.start_client()
-    for packet in packet_generator:
-        if packet:
-            socket_io.emit('packet', {'packet': packet})
+    for packet_obj in packet_generator:
+        if packet_obj:
+            socket_io.emit('packet', {'packet': packet_obj})
 
 
 def does_thread_exist(thread_name):
@@ -64,7 +66,16 @@ def handle_socket_connect():
 def index():
     return render_template('index.html')
 
+
+@app.route('/download-pcap-file', methods=['POST'])
+def download_pcap_file():
+    logger.info(f'Client has requested a pcap file download.')
+    encoded_packets = request.get_json()
+    socat_client.generate_pcap_file(encoded_packets)
+    return send_file('temp/capture.pcap', as_attachment=True, mimetype='application/vnd.tcpdump.pcap', download_name='capture.pcap')
+
+
 if __name__ == '__main__':
-    socket_io.run(app, debug=True)
+    socket_io.run(app, host='0.0.0.0', port=5050, allow_unsafe_werkzeug=True)
 
     
