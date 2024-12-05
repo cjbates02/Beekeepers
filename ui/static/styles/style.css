@@ -5,41 +5,34 @@ body {
     padding: 0;
 }
 
-img {
-    cursor: url(\static\realistic-bee.cur);
-}
+img  {
+    cursor: url(\static\realistic-bee.cur) ;
+ }
 
 .log-container {
     padding: 15px;
-    overflow-x: auto;
-    /* Allow horizontal scrolling if needed */
+    overflow-x: auto; /* Allow horizontal scrolling if needed */
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 20px;
-    table-layout: fixed;
-    /* Ensure equal column widths */
+    table-layout: fixed; /* Ensure equal column widths */
 }
 
-th,
-td {
+th, td {
     padding: 12px;
     text-align: left;
-    overflow: hidden;
-    /* Prevent text overflow */
-    text-overflow: ellipsis;
-    /* Show ellipsis for overflow text */
-    white-space: nowrap;
-    /* Prevent line breaks in table cells */
+    overflow: hidden; /* Prevent text overflow */
+    text-overflow: ellipsis; /* Show ellipsis for overflow text */
+    white-space: nowrap; /* Prevent line breaks in table cells */
 }
 
 
 /* Style for the navigation bar */
 nav {
-    background-color: #f4a460;
-    /* Sandy Brown color */
+    background-color: #f4a460; /* Sandy Brown color */
     padding: 10px;
     text-align: center;
     display: flex;
@@ -64,8 +57,7 @@ nav ul {
 }
 
 nav ul li {
-    margin: 0 10px;
-    /* Space between boxes */
+    margin: 0 10px; /* Space between boxes */
 }
 
 nav ul li a {
@@ -75,22 +67,25 @@ nav ul li a {
     color: #f4a460;
     text-decoration: none;
     font-weight: bold;
-    border-radius: 5px;
-    /* Rounded corners */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    /* Shadow effect */
+    border-radius: 5px; /* Rounded corners */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Shadow effect */
 }
 
 nav ul li a:hover {
-    background-color: #e0e0e0;
-    /* Light gray on hover */
+    background-color: #e0e0e0; /* Light gray on hover */
     text-decoration: underline;
 }
-
-/* Background image styling */
-background {
-    position: fixed;
+/* Background image container styling */
+#background {
+    position: fixed; /* Fixes the background to the viewport */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%; /* Ensure the background covers the entire viewport */
+    object-fit: cover; /* Maintain aspect ratio and cover the area */
+    z-index: -1; /* Ensure it stays behind other elements */
 }
+
 
 .cs-nav {
     width: 100%;
@@ -119,8 +114,7 @@ header {
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: -1;
-    /* Ensure it stays behind content */
+    z-index: -1; /* Ensure it stays behind content */
 }
 
 #background {
@@ -132,19 +126,14 @@ header {
 /* Grid Layout */
 .grid-container {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    /* Flexible grid columns */
-    gap: 20px;
-    /* Space between honeypots */
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Flexible grid columns */
+    gap: 20px; /* Space between honeypots */
     padding: 50px;
-    justify-content: center;
-    /* Center the grid horizontally */
-    align-items: center;
-    /* Center the grid vertically */
+    justify-content: center; /* Center the grid horizontally */
+    align-items: center; /* Center the grid vertically */
     position: relative;
     z-index: 1;
-    min-height: 10vh;
-    /* Ensure the grid takes up the full viewport height */
+    min-height: 10vh; /* Ensure the grid takes up the full viewport height */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -172,11 +161,9 @@ header {
 /* Grid items positioning */
 .honeypot-item {
     display: flex;
-    justify-content: center;
-    /* Center the button in its grid cell */
+    justify-content: center; /* Center the button in its grid cell */
     align-items: center;
 }
-
 /* Table Styling for Logs */
 table {
     width: 100%;
@@ -184,14 +171,11 @@ table {
     margin-bottom: 20px;
 }
 
-table,
-th,
-td {
+table, th, td {
     border: 1px solid #ddd;
 }
 
-th,
-td {
+th, td {
     padding: 12px;
     text-align: left;
 }
@@ -225,26 +209,21 @@ tr:hover {
 .ip-address {
     width: 20%;
 }
-
 /* Header container to position the title and back button */
 .header-container {
     display: flex;
-    justify-content: flex-start;
-    /* Align items to the left */
+    justify-content: flex-start; /* Align items to the left */
     align-items: center;
     margin: 20px 0;
 }
 
 /* Center the title */
 .title {
-    margin: 0 20px;
-    /* Add some margin on the sides */
+    margin: 0 20px; /* Add some margin on the sides */
     text-align: center;
-    flex-grow: 1;
-    /* Allow title to take up remaining space */
+    flex-grow: 1; /* Allow title to take up remaining space */
     font-size: 28px;
 }
-
 /* General button styling */
 .button {
     border: none;
@@ -254,32 +233,27 @@ tr:hover {
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
-    margin: 4px 10px;
-    /* Spacing between buttons */
+    margin: 4px 10px; /* Spacing between buttons */
     cursor: pointer;
     border-radius: 5px;
 }
 
 /* Back Button - Red */
 .back-button {
-    background-color: #ff4d4d;
-    /* Red background */
+    background-color: #ff4d4d; /* Red background */
 }
 
 .back-button:hover {
-    background-color: #ff6666;
-    /* Darker red on hover */
+    background-color: #ff6666; /* Darker red on hover */
 }
 
 /* Refresh Button - Orange */
 .refresh-button {
-    background-color: #ffa500;
-    /* Orange background */
+    background-color: #ffa500; /* Orange background */
 }
 
 .refresh-button:hover {
-    background-color: #ffcc66;
-    /* Lighter orange on hover */
+    background-color: #ffcc66; /* Lighter orange on hover */
 }
 
 /* Container for buttons */
@@ -290,8 +264,7 @@ tr:hover {
 
 /* Styling for header */
 .header-container {
-    text-align: center;
-    /* Center the content of the header */
+    text-align: center; /* Center the content of the header */
     margin-bottom: 20px;
 }
 
@@ -314,8 +287,7 @@ table {
     border-collapse: collapse;
 }
 
-th,
-td {
+th, td {
     padding: 8px 12px;
     border: 1px solid #ddd;
     text-align: left;
@@ -359,8 +331,7 @@ td {
 /* Optional: Adjust grid layout for bigger hexagons */
 .hexagon-container {
     display: flex;
-    gap: 50px;
-    /* Increased gap to accommodate larger hexagons */
+    gap: 50px; /* Increased gap to accommodate larger hexagons */
     flex-wrap: wrap;
     justify-content: center;
     margin-top: 30px;
@@ -380,8 +351,7 @@ td {
 .hexagon {
     width: 200px;
     height: 200px;
-    background-color: #e0a800;
-    /* Mustard yellow color */
+    background-color: #e0a800; /* Mustard yellow color */
     background-color: #f0c040;
     border: 2px solid #e5a731;
     position: relative;
@@ -394,52 +364,7 @@ td {
     font-weight: bold;
     text-align: center;
     padding: 10px;
-    gap: 5px;
-    /* Space between elements */
-}
-
-/* Icon styles */
-.hexagon .icon {
-    font-size: 20px;
-    /* Icon size */
-    color: white;
-    /* Icon color */
-}
-
-/* Add hover effect for icons */
-.hexagon .icon:hover {
-    color: #f4a460;
-    /* Change icon color on hover */
-}
-
-/* Optional: Styling for text to make it more readable inside hexagon */
-.hexagon span {
-    font-size: 14px;
-    margin-top: 5px;
-    /* Space between icon and text */
-}
-
-/* Hexagon Styling */
-.hexagon-container {
-    display: flex;
-    gap: 30px;
-    justify-content: center;
-    margin-top: 30px;
-}
-
-.hexagon {
-    width: 160px;
-    height: 200px;
-    background-color: #f4a460;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-    color: white;
-    text-align: center;
-    padding: 10px;
-    font-weight: bold;
+    gap: 5px; /* Space between elements */
 }
 
 /* Icon Container */
@@ -480,13 +405,119 @@ td {
     margin: 2px 0;
 }
 
-.lf-progress {
-    -webkit-appearance: none;
-    -moz-apperance: none;
+/* Loader Styling */
+.loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    --color: hsl(0, 0%, 87%);
+    --animation: 2s ease-in-out infinite;
+}
+
+.loader .circle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 20px;
+    height: 20px;
+    border: solid 2px var(--color);
+    border-radius: 50%;
+    margin: 0 10px;
+    background-color: transparent;
+    animation: circle-keys var(--animation);
+}
+
+.loader .circle .dot {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: var(--color);
+    animation: dot-keys var(--animation);
+}
+
+.loader .circle .outline {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    animation: outline-keys var(--animation);
+}
+
+.circle:nth-child(2) {
+    animation-delay: 0.3s;
+}
+
+.circle:nth-child(3) {
+    animation-delay: 0.6s;
+}
+
+.circle:nth-child(4) {
+    animation-delay: 0.9s;
+}
+
+.circle:nth-child(5) {
+    animation-delay: 1.2s;
+}
+
+@keyframes circle-keys {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.5);
+        opacity: 0.5;
+    }
+}
+
+@keyframes dot-keys {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(0);
+    }
+}
+
+@keyframes outline-keys {
+    0% {
+        transform: scale(0);
+        outline: solid 20px var(--color);
+        outline-offset: 0;
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+        outline: solid 0 transparent;
+        outline-offset: 20px;
+        opacity: 0;
+    }
+}
+
+/* Progress Bar */
+.lf-progress,
+.lf-progress::-moz-range-track,
+.lf-progress::-ms-track,
+.lf-progress::-ms-fill-lower,
+.lf-progress::-ms-fill-upper {
     width: 100%;
-    /* margin: 0 10px; */
     height: 4px;
     border-radius: 3px;
+    background: #ccc;
+    cursor: pointer;
+}
+
+.lf-progress::-webkit-slider-thumb,
+.lf-progress::-moz-range-thumb,
+.lf-progress::-ms-thumb {
+    height: 13px;
+    width: 13px;
+    border-radius: 50%;
+    background: #0fccce;
     cursor: pointer;
 }
 
@@ -495,84 +526,12 @@ td {
     border: none;
 }
 
-.lf-progress::-moz-range-track {
-    cursor: pointer;
-    background: none;
-    border: none;
-    outline: none;
-}
-
-.lf-progress::-webkit-slider-thumb {
-    -webkit-appearance: none !important;
-    height: 13px;
-    width: 13px;
-    border: 0;
-    border-radius: 50%;
-    background: #0fccce;
-    cursor: pointer;
-}
-
-.lf-progress::-moz-range-thumb {
-    -moz-appearance: none !important;
-    height: 13px;
-    width: 13px;
-    border: 0;
-    border-radius: 50%;
-    background: #0fccce;
-    cursor: pointer;
-}
-
-.lf-progress::-ms-track {
-    width: 100%;
-    height: 3px;
-    cursor: pointer;
-    background: transparent;
-    border-color: transparent;
-    color: transparent;
-}
-
-.lf-progress::-ms-fill-lower {
-    background: #ccc;
-    border-radius: 3px;
-}
-
-.lf-progress::-ms-fill-upper {
-    background: #ccc;
-    border-radius: 3px;
-}
-
-.lf-progress::-ms-thumb {
-    border: 0;
-    height: 15px;
-    width: 15px;
-    border-radius: 50%;
-    background: #0fccce;
-    cursor: pointer;
-}
-
-.lf-progress:focus::-ms-fill-lower {
-    background: #ccc;
-}
-
-.lf-progress:focus::-ms-fill-upper {
-    background: #ccc;
-}
-
-.lf-player-container :focus {
-    outline: 0;
-}
-
-.lf-popover {
-    position: relative;
-}
-
+/* Popover Content */
 .lf-popover-content {
-    display: inline-block;
     position: absolute;
-    opacity: 1;
-    visibility: visible;
-    transform: translate(0, -10px);
-    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+    background-color: #ffffff;
+    padding: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.26);
     transition: all 0.3s cubic-bezier(0.75, -0.02, 0.2, 0.97);
 }
 
@@ -582,9 +541,9 @@ td {
     transform: translate(0, 0px);
 }
 
-.lf-player-btn-container {
-    display: flex;
-    align-items: center;
+/* Player Controls */
+.lf-player-controls > div {
+    margin: 0 5px;
 }
 
 .lf-player-btn {
@@ -597,139 +556,26 @@ td {
     fill: #555;
 }
 
-.lf-popover {
-    position: relative;
-}
-
-.lf-popover-content {
-    display: inline-block;
-    position: absolute;
-    background-color: #ffffff;
-    opacity: 1;
-
-    transform: translate(0, -10px);
-    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
-    transition: all 0.3s cubic-bezier(0.75, -0.02, 0.2, 0.97);
-    padding: 10px;
-}
-
-.lf-popover-content.hidden {
-    opacity: 0;
-    visibility: hidden;
-    transform: translate(0, 0px);
-}
-
-.lf-arrow {
-    position: absolute;
-    z-index: -1;
-    content: '';
-    bottom: -9px;
-    border-style: solid;
-    border-width: 10px 10px 0px 10px;
-}
-
-.lf-left-align,
-.lf-left-align .lfarrow {
-    left: 0;
-    right: unset;
-}
-
-.lf-right-align,
-.lf-right-align .lf-arrow {
-    right: 0;
-    left: unset;
-}
-
-.lf-text-input {
-    border: 1px #ccc solid;
-    border-radius: 5px;
-    padding: 3px;
-    width: 60px;
-    margin: 0;
-}
-
-.lf-color-picker {
+/* Hexagon Container */
+.hexagon-container {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    height: 90px;
+    flex-wrap: wrap;
+    gap: 15px; /* Adjust the spacing between hexagons */
 }
 
-.lf-color-selectors {
+/* Individual Hexagon Styling */
+.hexagon-item {
+    width: 160px; /* Increased width for larger hexagons */
+    height: 183px; /* Increased height to maintain hexagon aspect ratio */
+    background-color: #ccc; /* Change as needed */
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-.lf-color-component {
-    display: flex;
-    flex-direction: row;
-    font-size: 12px;
-    align-items: center;
     justify-content: center;
-}
-
-.lf-color-component strong {
-    width: 40px;
-}
-
-.lf-color-component input[type='range'] {
-    margin: 0 0 0 10px;
-}
-
-.lf-color-component input[type='number'] {
-    width: 50px;
-    margin: 0 0 0 10px;
-}
-
-.lf-color-preview {
-    font-size: 12px;
-    display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-    padding-left: 5px;
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    text-align: center;
+    word-wrap: break-word;
+    font-size: 0.7rem; /* Decreased font size for smaller text */
+    padding: 5px; /* Optional, for padding inside the hexagon */
 }
 
-.lf-preview {
-    height: 60px;
-    width: 60px;
-}
 
-.lf-popover-snapshot {
-    width: 150px;
-}
-
-.lf-popover-snapshot h5 {
-    margin: 5px 0 10px 0;
-    font-size: 0.75rem;
-}
-
-.lf-popover-snapshot a {
-    display: block;
-    text-decoration: none;
-}
-
-.lf-popover-snapshot a:before {
-    content: '⥼';
-    margin-right: 5px;
-}
-
-.lf-popover-snapshot .lf-note {
-    display: block;
-    margin-top: 10px;
-    color: #999;
-}
-
-.lf-player-controls>div {
-    margin-right: 5px;
-    margin-left: 5px;
-}
-
-.lf-player-controls>div:first-child {
-    margin-left: 0px;
-}
-
-.lf-player-controls>div:last-child {
-    margin-right: 0px;
-}

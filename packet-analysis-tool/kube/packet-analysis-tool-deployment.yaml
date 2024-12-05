@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: packet-analysis-tool
+  namespace: monitoring
+  labels:
+    app: packet-analysis-tool 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: packet-analysis-tool
+  template:
+    metadata:
+      labels:
+        app: packet-analysis-tool
+    spec:
+      nodeSelector:
+        role: master
+      containers:
+      - name: packet-analysis-tool
+        image: cjbates02/packet-analysis-container
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "1000m"
+
+
