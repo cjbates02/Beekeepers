@@ -2,6 +2,7 @@ from dotenv import load_dotenv
 import os
 import json
 import requests
+import pprint
 
 load_dotenv()
 
@@ -21,6 +22,7 @@ class PromClient:
         response = requests.get(self.api_url + query)
         if response.status_code == 200:
             query_result = json.loads(response.text)
+            # pprint.pprint(query_result)
             return query_result
         else:
             print(f'Prom query {query} failed with status code {response.status_code}.')
@@ -60,8 +62,8 @@ class PromClient:
     def calculate_utilization(self, metric_usage, metric_limit, metric_usage_percentage_name):
         for pod in self.processed_data:
             if self.processed_data[pod][metric_usage] and self.processed_data[pod][metric_limit]:
-                self.processed_data[pod][metric_usage_percentage_name] = round(float(self.processed_data[pod][metric_usage]) / float(self.processed_data[pod][metric_limit]), 2) * 100
-
+                self.processed_data[pod][metric_usage_percentage_name] = round(float(self.processed_data[pod][metric_usage]) / float(self.processed_data[pod][metric_limit]) * 100, 2)
+    
 
     def main(self):
         self.process_all_queries()

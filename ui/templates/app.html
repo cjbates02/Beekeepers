@@ -15,27 +15,28 @@
             <h1 class="cs-header">Beekeepers</h1>
             <ul>
                 <li><a href="http://10.0.97.136:9090/graph?g0.expr=&g0.tab=1&g0.stacked=0&g0.show_exemplars=0&g0.range_input=1h" target="_blank">Prometheus</a></li>
-                <li><a href="{{ url_for('grafana') }}" target="_blank">Packet Sniffer</a></li>
+                <li><a href="http://10.0.10.17:5050" target="_blank">Packet Sniffer</a></li>
                 <li><a href="http://10.0.97.136:30001/app/home#/" target="_blank">Elastic</a></li>
+                <a href="{{ url_for('create') }}"><button class="admin-button">Admin</button></a>
             </ul>
         </nav>
-        <a href="{{ url_for('create') }}"><button class="admin-button">Admin</button></a>
     </header>
-
+<!-- 
     <div class="background-container">
         <img id="background" src="/static/Honey comb.jpg" alt="Honeycomb Background">
-    </div>
+    </div> -->
 
     <div class="grid-container">
         <div class="honeypot-item">
-            <button class="honeypot-button" onclick="changeLogURL('cowrie')">Cowrie</button>
+            <a href="http://127.0.0.1:5050/logs/cowrie"><button class="honeypot-button">Cowrie</button></a>
         </div>
         <div class="honeypot-item">
-            <button class="honeypot-button" onclick="changeLogURL('pfpot')">pfPot</button>
+            <a href="http://127.0.0.1:5050/logs/pfpot"><button class="honeypot-button">pfPot</button></a>
         </div>
     </div>
 
     <div class="hexagon-container" id="metrics-container">
+        <div id=loader class="lds-hourglass"></div>
         <!-- Hexagonal Metric Items will be injected here by JS -->
     </div>
 </body>

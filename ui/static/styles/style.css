@@ -1,6 +1,5 @@
 body {
     font-family: Arial, sans-serif;
-    color: #333;
     margin: 0;
     padding: 0;
 }
@@ -36,15 +35,17 @@ nav {
     padding: 10px;
     text-align: center;
     display: flex;
-    flex-direction: column;
+    /* flex-direction: column; */
     align-items: center;
+    justify-content: space-between;
+    align-items: center;
+    height: 41px;
 }
 
 /* Styling the Beekeepers header in the navbar */
 nav h1.cs-header {
     font-size: 24px;
     color: white;
-    margin: 0 0 10px 0;
 }
 
 /* Centering the navigation links */
@@ -58,6 +59,9 @@ nav ul {
 
 nav ul li {
     margin: 0 10px; /* Space between boxes */
+    width: 153px;
+    /* text-align: left; */
+    padding: 0;
 }
 
 nav ul li a {
@@ -137,6 +141,7 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
+    border-bottom: 5px solid brown;
 }
 
 /* Honeypot button styling */
@@ -304,16 +309,21 @@ th, td {
 }
 
 .admin-button {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    padding: 8px 16px;
+    /* position: absolute; */
+    /* top: 10px; */
+    /* right: 10px; */
+    padding: 8px;
     background-color: #ffffff;
     color: rgb(244, 164, 96);
     border: 1px solid rgb(250, 250, 250);
-    border-radius: 4px;
+    border-radius: 5px;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 16px;
+    font-weight: bolder;
+    width: 93px;
+    margin-left: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    margin-top: 0px;
 }
 
 .admin-button:hover {
@@ -333,8 +343,10 @@ th, td {
     display: flex;
     gap: 50px; /* Increased gap to accommodate larger hexagons */
     flex-wrap: wrap;
-    justify-content: center;
+    /* justify-content: center; */
     margin-top: 30px;
+    /* margin-left: 23px; */
+    justify-content: center;
 }
 
 .hexagon .metrics {
@@ -349,22 +361,26 @@ th, td {
 
 /* Hexagon Shape Styling */
 .hexagon {
-    width: 200px;
-    height: 200px;
-    background-color: #e0a800; /* Mustard yellow color */
-    background-color: #f0c040;
-    border: 2px solid #e5a731;
-    position: relative;
-    display: flex;
+    width: 346px;
+    height: 117px;
+    background-color: hsl(0, 0%, 60%); /* Mustard yellow color */
+    /* background-color: #f0c040; */
+    /* border: 2px solid #e5a731; */
+    /* position: relative; */
+    /* display: flex; */
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    /* justify-content: center; */
+    /* align-items: center; */
+    /* clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); */
     color: white;
-    font-weight: bold;
-    text-align: center;
-    padding: 10px;
+    /* font-weight: bold; */
+    /* text-align: center; */
     gap: 5px; /* Space between elements */
+    border-radius: 10px;
+    padding-left: 2px;
+    padding-right: 2px;
+    !i;!;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
 }
 
 /* Icon Container */
@@ -558,9 +574,9 @@ th, td {
 
 /* Hexagon Container */
 .hexagon-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px; /* Adjust the spacing between hexagons */
+    /* display: flex; */
+    /* flex-wrap: wrap; */
+    gap: 20px; /* Adjust the spacing between hexagons */
 }
 
 /* Individual Hexagon Styling */
@@ -578,4 +594,65 @@ th, td {
     padding: 5px; /* Optional, for padding inside the hexagon */
 }
 
+.pod-title {
+    margin: 0px;
+    height: 38px;
+    font-weight: 600;
+}
 
+.hex-content {
+}
+
+.hex-content-container {
+    padding: 5px;
+}
+
+.pod-metric {
+    margin-bottom: 0px;
+    margin-top: 5px;
+    display: flex;
+    justify-content: space-between;
+    margin-left: 6px;
+    margin-right: 6px;
+}
+
+
+.lds-hourglass,
+.lds-hourglass:after {
+  box-sizing: border-box;
+}
+.lds-hourglass {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+.lds-hourglass:after {
+  content: " ";
+  display: block;
+  border-radius: 50%;
+  width: 0;
+  height: 0;
+  margin: 8px;
+  box-sizing: border-box;
+  border: 32px solid currentColor;
+  border-color: currentColor transparent currentColor transparent;
+  animation: lds-hourglass 1.2s infinite;
+}
+@keyframes lds-hourglass {
+  0% {
+    transform: rotate(0);
+    animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  }
+  50% {
+    transform: rotate(900deg);
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+  100% {
+    transform: rotate(1800deg);
+  }
+}
+
+.hidden {
+    display: none;
+}

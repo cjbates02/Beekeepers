@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
     const container = document.getElementById('metrics-container');
+    const loader = document.getElementById('loader');
 
     websocket = io('http://127.0.0.1:5050');
 
@@ -9,24 +10,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
     websocket.on('prom_data', (data) => { 
         const metricData = data.data;
+        loader.classList.add('hidden');
         populatePods(metricData);
     });
 
     function populatePods(metricData) {
-        container.innerHTML = ''; // Clear the container before populating
+        container.innerHTML = ''; 
         Object.keys(metricData).forEach(key => {
             const pod = metricData[key];
             const hexagon = document.createElement("div");
             hexagon.className = "hexagon";
-
             hexagon.innerHTML = `
-                <div class="hex-content">
-                    <h3>${key}</h3>
-                    <p>CPU: ${pod.cpu_usage_percentage}% / ${pod.cpu_limit}</p>
-                    <p>Memory: ${pod.memory_usage_percentage}% / ${pod.memory_limit}</p>
-                    <p>Status: ${pod.status}</p>
+                <div class="hex-content-container">
+                    <p class="pod-title">${key}</p>
+                    <div class="hex-content">
+                        <div class="pod-metric"><span>CPU: </span><span class="pod-metric-value">${(pod.cpu_usage * 100).toFixed(2)}%</span></div>
+                        <div class="pod-metric"><span>Memory: </span><span class="pod-metric-value">${(pod.memory_usage / 1024 ** 3).toFixed(2)}Gb</span></div>
+                        <div class="pod-metric"><span>Status: </span><span class="pod-metric-value">${(pod.status) ? 'Up' : 'Down'}</span></div>
+                    </div>
                 </div>
             `;
+
+            
 
             container.appendChild(hexagon);
         });
