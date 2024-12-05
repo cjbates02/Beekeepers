@@ -75,11 +75,17 @@ nav ul li a:hover {
     background-color: #e0e0e0; /* Light gray on hover */
     text-decoration: underline;
 }
-
-/* Background image styling */
-background {
-    position: fixed;
+/* Background image container styling */
+#background {
+    position: fixed; /* Fixes the background to the viewport */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%; /* Ensure the background covers the entire viewport */
+    object-fit: cover; /* Maintain aspect ratio and cover the area */
+    z-index: -1; /* Ensure it stays behind other elements */
 }
+
 
 .cs-nav {
     width: 100%;
@@ -361,46 +367,6 @@ th, td {
     gap: 5px; /* Space between elements */
 }
 
-/* Icon styles */
-.hexagon .icon {
-    font-size: 20px; /* Icon size */
-    color: white; /* Icon color */
-}
-
-/* Add hover effect for icons */
-.hexagon .icon:hover {
-    color: #f4a460; /* Change icon color on hover */
-}
-
-/* Optional: Styling for text to make it more readable inside hexagon */
-.hexagon span {
-    font-size: 14px;
-    margin-top: 5px; /* Space between icon and text */
-}
-
-/* Hexagon Styling */
-.hexagon-container {
-    display: flex;
-    gap: 30px;
-    justify-content: center;
-    margin-top: 30px;
-}
-
-.hexagon {
-    width: 160px;
-    height: 200px;
-    background-color: #f4a460;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-    color: white;
-    text-align: center;
-    padding: 10px;
-    font-weight: bold;
-}
-
 /* Icon Container */
 .icon-container {
     display: flex;
@@ -438,3 +404,178 @@ th, td {
     font-size: 12px;
     margin: 2px 0;
 }
+
+/* Loader Styling */
+.loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    --color: hsl(0, 0%, 87%);
+    --animation: 2s ease-in-out infinite;
+}
+
+.loader .circle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 20px;
+    height: 20px;
+    border: solid 2px var(--color);
+    border-radius: 50%;
+    margin: 0 10px;
+    background-color: transparent;
+    animation: circle-keys var(--animation);
+}
+
+.loader .circle .dot {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: var(--color);
+    animation: dot-keys var(--animation);
+}
+
+.loader .circle .outline {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    animation: outline-keys var(--animation);
+}
+
+.circle:nth-child(2) {
+    animation-delay: 0.3s;
+}
+
+.circle:nth-child(3) {
+    animation-delay: 0.6s;
+}
+
+.circle:nth-child(4) {
+    animation-delay: 0.9s;
+}
+
+.circle:nth-child(5) {
+    animation-delay: 1.2s;
+}
+
+@keyframes circle-keys {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.5);
+        opacity: 0.5;
+    }
+}
+
+@keyframes dot-keys {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(0);
+    }
+}
+
+@keyframes outline-keys {
+    0% {
+        transform: scale(0);
+        outline: solid 20px var(--color);
+        outline-offset: 0;
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+        outline: solid 0 transparent;
+        outline-offset: 20px;
+        opacity: 0;
+    }
+}
+
+/* Progress Bar */
+.lf-progress,
+.lf-progress::-moz-range-track,
+.lf-progress::-ms-track,
+.lf-progress::-ms-fill-lower,
+.lf-progress::-ms-fill-upper {
+    width: 100%;
+    height: 4px;
+    border-radius: 3px;
+    background: #ccc;
+    cursor: pointer;
+}
+
+.lf-progress::-webkit-slider-thumb,
+.lf-progress::-moz-range-thumb,
+.lf-progress::-ms-thumb {
+    height: 13px;
+    width: 13px;
+    border-radius: 50%;
+    background: #0fccce;
+    cursor: pointer;
+}
+
+.lf-progress:focus {
+    outline: none;
+    border: none;
+}
+
+/* Popover Content */
+.lf-popover-content {
+    position: absolute;
+    background-color: #ffffff;
+    padding: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.26);
+    transition: all 0.3s cubic-bezier(0.75, -0.02, 0.2, 0.97);
+}
+
+.lf-popover-content.hidden {
+    opacity: 0;
+    visibility: hidden;
+    transform: translate(0, 0px);
+}
+
+/* Player Controls */
+.lf-player-controls > div {
+    margin: 0 5px;
+}
+
+.lf-player-btn {
+    cursor: pointer;
+    fill: #999;
+    width: 14px;
+}
+
+.lf-player-btn.active {
+    fill: #555;
+}
+
+/* Hexagon Container */
+.hexagon-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px; /* Adjust the spacing between hexagons */
+}
+
+/* Individual Hexagon Styling */
+.hexagon-item {
+    width: 160px; /* Increased width for larger hexagons */
+    height: 183px; /* Increased height to maintain hexagon aspect ratio */
+    background-color: #ccc; /* Change as needed */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    text-align: center;
+    word-wrap: break-word;
+    font-size: 0.7rem; /* Decreased font size for smaller text */
+    padding: 5px; /* Optional, for padding inside the hexagon */
+}
+
+
