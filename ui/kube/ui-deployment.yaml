@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ui
+  namespace: monitoring
+  labels:
+    app: ui 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ui
+  template:
+    metadata:
+      labels:
+        app: ui
+    spec:
+      nodeSelector:
+        role: master
+      containers:
+      - name: ui
+        image: cjbates02/beekeeper-ui
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "1000m"
+
+
